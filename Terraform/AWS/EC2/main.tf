@@ -114,4 +114,4 @@ resource "aws_instance" "private_ec2" {
   tags = { Name = each.value.name }
 }
 
-#EOD
+#End of file
