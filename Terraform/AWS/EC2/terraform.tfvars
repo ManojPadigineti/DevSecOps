@@ -1,3 +1,4 @@
+# Terraform Variables
 project-vpc = {
   "cidr" = "10.0.0.0/16",
   "name" = "Roboshop-vpc"
