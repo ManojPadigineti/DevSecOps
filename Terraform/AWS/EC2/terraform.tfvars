@@ -40,6 +40,7 @@ public-ec2 = {
   }
 }
 
+
 private-ec2 = {
   "catalogue-server" = {
     instance_type = "t2.micro"

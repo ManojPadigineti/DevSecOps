@@ -1,3 +1,30 @@
+############################################################
+# Networking Component Summary for Public & Private Subnets
+############################################################
+
+# Internet Gateway (IGW)
+# - Used in public subnets only
+# - Enables direct inbound and outbound internet access
+
+# NAT Gateway + EIP
+# - Used in private subnets only
+# - Allows outbound internet access for private instances
+# - Does NOT allow inbound internet access
+
+# Elastic IP (EIP)
+# - Required for NAT Gateway to communicate with the internet
+# - Must be allocated and associated with the NAT Gateway
+
+# NAT Gateway
+# - Must be deployed in a public subnet
+# - Routes traffic from private subnets to the internet via EIP & IGW
+
+# Summary:
+# Public Subnet:  IGW + Route Table + NAT GW  in Public Subnet & Route Table association to IGW -> 0.0.0.0/0 via IGW
+# Private Subnet: Route Table & Route table association to NAT -> 0.0.0.0/0 via NAT Gateway
+############################################################
+
+
 # VPC
 resource "aws_vpc" "project-vpc" {
   cidr_block = var.project-vpc.cidr
@@ -23,6 +50,38 @@ resource "aws_route_table" "public" {
   tags = { Name = var.route.name }
 }
 
+
+# Associate Public Route Table with Public Subnet
+resource "aws_route_table_association" "public_assoc" {
+  depends_on = [ aws_subnet.public ]
+  for_each = var.public_subnet
+  subnet_id  = aws_subnet.public[each.key].id
+  route_table_id = aws_route_table.public.id
+}
+# Associate Public Route Table with Private Subnet
+resource "aws_route_table_association" "Private_assoc" {
+  depends_on = [ aws_subnet.private ]
+  for_each = var.private_subnet
+  subnet_id  = aws_subnet.private[each.key].id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_nat_gateway" "nat" {
+  depends_on = [aws_internet_gateway.igw]
+  subnet_id = aws_subnet.public["rb-public-subnet"].id
+  allocation_id = aws_eip.nat_eip.id
+}
+
+# Private Route Table
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.project-vpc.id
+  route {
+    cidr_block = var.route.cidr_route
+    nat_gateway_id = aws_nat_gateway.nat.id
+  }
+  tags = { Name = "private[var.route.name]"}
+}
+
 # Public Subnet
 resource "aws_subnet" "public" {
   for_each = var.public_subnet
@@ -41,15 +100,6 @@ resource "aws_subnet" "private" {
   availability_zone = each.value.av
   tags = { Name = each.value.name }
 }
-
-# Associate Public Route Table with Public Subnet
-resource "aws_route_table_association" "public_assoc" {
-  depends_on = [ aws_subnet.public ]
-  for_each = var.public_subnet
-  subnet_id  = aws_subnet.public[each.key].id
-  route_table_id = aws_route_table.public.id
-}
-
 
 ############################################################
 ############################################################
@@ -111,6 +161,10 @@ resource "aws_eip_association" "pip_allocate" {
   depends_on = [aws_instance.public-vm]
   instance_id = aws_instance.public-vm["Frontend-server"].id
   allocation_id = data.aws_eip.pip.id
+}
+
+resource "aws_eip" "nat_eip" {
+  domain = "vpc"
 }
 
 # Private EC2 Instance
