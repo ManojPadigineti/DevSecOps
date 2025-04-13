@@ -12,8 +12,8 @@ cd /usr/share/nginx/html
 unzip /tmp/frontend.zip
 
 cd /etc/nginx/
-ls /etc/nginx/nginx.conf
-if [ $? -eq 0 ]; then
+ls /etc/nginx/nginx.conf &>> /tmp/log.txt
+if [ $? -ne 0 ]; then
   rm /etc/nginx/nginx.conf ; cp /home/ec2-user/DevSecOps/Shell_scripts/frontend-ms/nginx.conf /etc/nginx/nginx.conf
   else
     cp /home/ec2-user/DevSecOps/Shell_scripts/frontend-ms/nginx.conf /etc/nginx/nginx.conf
