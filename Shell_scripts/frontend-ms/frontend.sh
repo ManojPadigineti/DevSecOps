@@ -13,6 +13,6 @@ unzip /tmp/frontend.zip
 
 cd /etc/nginx/
 rm nginx.conf
-cp nginx.conf /etc/nginx/nginx.conf
+cp /home/ec2-user/DevSecOps/Shell_scripts/frontend-ms/nginx.conf /etc/nginx/nginx.conf
 
 systemctl restart nginx
