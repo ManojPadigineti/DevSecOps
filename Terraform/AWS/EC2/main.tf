@@ -92,6 +92,9 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
+data "aws_eip" "pip" {
+  id = "eipalloc-0fdc963b64d8237b1"
+}
 
 # Public EC2 Instance
 resource "aws_instance" "public-vm" {
@@ -102,6 +105,12 @@ resource "aws_instance" "public-vm" {
   vpc_security_group_ids      = [aws_security_group.allow_all_sg.id]
   associate_public_ip_address = true
   tags = { Name = each.value.name }
+}
+
+resource "aws_eip_association" "pip_allocate" {
+  depends_on = [aws_instance.public-vm]
+  instance_id = aws_instance.public-vm["Frontend-server"].id
+  allocation_id = data.aws_eip.pip.id
 }
 
 # Private EC2 Instance
