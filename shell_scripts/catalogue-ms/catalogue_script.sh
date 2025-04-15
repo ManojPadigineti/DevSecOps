@@ -1,3 +1,4 @@
+# Catalogue Microservice Script
 source /root/DevSecOps/Shell_scripts/common.sh
 app_name=catalogue
 user=roboshop
