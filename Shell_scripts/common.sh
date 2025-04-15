@@ -25,16 +25,20 @@ systemd_start () {
 
 nginx_setup () {
 ls /usr/share/nginx/html/* ;
- if [ $? -eq 0 ]; then
-   rm -rf /usr/share/nginx/html/*
- fi
+   if [ $? -eq 0 ]; then
+     rm -rf /usr/share/nginx/html/*
+   fi
  ls /tmp/frontend.zip
- if [ $? -eq 0 ]; then
-   rm -rf /tmp/frontend.zip
- fi
+   if [ $? -eq 0 ]; then
+     rm -rf /tmp/frontend.zip
+   fi
  curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
  cd /usr/share/nginx/html
  unzip /tmp/frontend.zip
  cd $current_dir
+ ls /etc/nginx/nginx.conf
+   if [ $? -eq 0 ]; then
+     rm -rf /etc/nginx/nginx.conf
+   fi
  cp -R nginx.conf /etc/nginx/nginx.conf
 }
