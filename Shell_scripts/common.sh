@@ -20,10 +20,15 @@ install_dependencies () {
       sed -i -e 's\127.0.0.1\0.0.0.0\g' /etc/mongod.conf
       systemd_start mongod
     fi
+    if [ $dependencies == "mongodb-mongosh" ]; then
+      mongo_setup
+      dnf install mongodb-mongosh -y
+    fi
   done
 }
 
 systemd_start () {
+  systemctl daemon-reload
   systemctl enable $1
   systemctl start $1
   systemctl restart $1
@@ -51,4 +56,26 @@ ls /usr/share/nginx/html/* ;
 
 mongo_setup () {
 cp -R $current_dir/mongo.repo /etc/yum.repos.d/mongo.repo
+}
+
+create_user () {
+useradd $1
+}
+
+catalogue_setup () {
+ls /app
+ if [ $? -eq 0 ]; then
+   rm -rf /app
+ fi
+mkdir /app
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+cd /app
+unzip /tmp/catalogue.zip
+cd /app
+npm install
+ls /etc/systemd/system/catalogue.service
+ if [ $? -eq 0 ]; then
+   rm -rf /etc/systemd/system/catalogue.service
+ fi
+cp -r $current_dir/catalogue.service /etc/systemd/system/catalogue.service
 }
