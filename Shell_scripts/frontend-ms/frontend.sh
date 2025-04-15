@@ -1,6 +1,7 @@
 dnf module disable nginx -y
 dnf module enable nginx:1.24 -y
 dnf install nginx -y
+
 systemctl enable nginx
 systemctl start nginx
 
@@ -11,11 +12,6 @@ curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v
 cd /usr/share/nginx/html
 unzip /tmp/frontend.zip
 
-cd /etc/nginx/
-ls /etc/nginx/nginx.conf &>> /tmp/log.txt
-if [ $? -ne 0 ]; then
-  rm /etc/nginx/nginx.conf ; cp /home/ec2-user/DevSecOps/Shell_scripts/frontend-ms/nginx.conf /etc/nginx/nginx.conf
-  else
-    cp /home/ec2-user/DevSecOps/Shell_scripts/frontend-ms/nginx.conf /etc/nginx/nginx.conf
-fi
+cp /etc/nginx/nginx.conf
+
 systemctl restart nginx

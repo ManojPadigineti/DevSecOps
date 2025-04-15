@@ -19,8 +19,24 @@
 # - Must be deployed in a public subnet
 # - Routes traffic from private subnets to the internet via EIP & IGW
 
+
+/*
+## IGW in VPC level
+In Public Subnet:
+ - NAT Gateway + EIP + Route table ( 0.0.0.0/0 -> Associate to IGW)
+In Private Subnet
+ - Route table  ( 0.0.0.0/0 -> Associate to Nat Gateway)
+
+Internet Gateway ->  VPC-wide	Public internet access (public subnets)
+NAT Gateway -> Public Subnet Outbound internet for private subnets
+Elastic IP for NAT Public NAT Gateway Required for NAT in Public Subnet
+Elastic IP for EC2 -> Public EC2 instance
+Route Table (Public) -> Attach to Public Subnet Route via IGW
+Route Table (Private) -> Attach to Private Subnet Route via NAT Gateway
+ */
+
 # Summary:
-# Public Subnet:  IGW + Route Table + NAT GW  in Public Subnet & Route Table association to IGW -> 0.0.0.0/0 via IGW
+# Public Subnet:  IGW  + Route Table + NAT GW  in Public Subnet & Route Table association to IGW -> 0.0.0.0/0 via IGW
 # Private Subnet: Route Table & Route table association to NAT -> 0.0.0.0/0 via NAT Gateway
 ############################################################
 
@@ -50,6 +66,15 @@ resource "aws_route_table" "public" {
   tags = { Name = var.route.name }
 }
 
+# Private Route Table
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.project-vpc.id
+  route {
+    cidr_block = var.route.cidr_route
+    nat_gateway_id = aws_nat_gateway.nat.id
+  }
+  tags = { Name = "private[var.route.name]"}
+}
 
 # Associate Public Route Table with Public Subnet
 resource "aws_route_table_association" "public_assoc" {
@@ -70,16 +95,6 @@ resource "aws_nat_gateway" "nat" {
   depends_on = [aws_internet_gateway.igw]
   subnet_id = aws_subnet.public["rb-public-subnet"].id
   allocation_id = aws_eip.nat_eip.id
-}
-
-# Private Route Table
-resource "aws_route_table" "private" {
-  vpc_id = aws_vpc.project-vpc.id
-  route {
-    cidr_block = var.route.cidr_route
-    nat_gateway_id = aws_nat_gateway.nat.id
-  }
-  tags = { Name = "private[var.route.name]"}
 }
 
 # Public Subnet
@@ -142,8 +157,9 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-data "aws_eip" "pip" {
-  id = "eipalloc-0fdc963b64d8237b1"
+resource "aws_eip" "public_ip" {
+  for_each = var.public-ec2
+  domain = "vpc"
 }
 
 # Public EC2 Instance
@@ -159,8 +175,9 @@ resource "aws_instance" "public-vm" {
 
 resource "aws_eip_association" "pip_allocate" {
   depends_on = [aws_instance.public-vm]
-  instance_id = aws_instance.public-vm["Frontend-server"].id
-  allocation_id = data.aws_eip.pip.id
+  for_each = var.public-ec2
+  instance_id = aws_instance.public-vm[each.key].id
+  allocation_id = aws_eip.public_ip[each.key].id
 }
 
 resource "aws_eip" "nat_eip" {
