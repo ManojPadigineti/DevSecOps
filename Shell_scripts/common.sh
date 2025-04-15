@@ -36,5 +36,5 @@ ls /usr/share/nginx/html/* ;
  cd /usr/share/nginx/html
  unzip /tmp/frontend.zip
  cp $current_dir
- cp nginx.conf /etc/nginx/nginx.conf
+ cp -R nginx.conf /etc/nginx/nginx.conf
 }
