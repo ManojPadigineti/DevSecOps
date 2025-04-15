@@ -16,7 +16,7 @@ install_dependencies () {
     fi
     if [ $dependencies == "mongodb" ]; then
       dnf install mongodb-org -y
-      sed -i -e 's\127.0.0.1\0.0.0.0\g' /etc/mongod.conf
+      mongo_setup
       systemd_start mongod
     fi
   done
@@ -46,4 +46,9 @@ ls /usr/share/nginx/html/* ;
      rm -rf /etc/nginx/nginx.conf
    fi
  cp -R nginx.conf /etc/nginx/nginx.conf
+}
+
+mongo_setup () {
+cp -R $current_dir/mongo.repo /etc/yum.repos.d/mongo.repo
+sed -i -e 's\127.0.0.1\0.0.0.0\g' /etc/mongod.conf
 }
