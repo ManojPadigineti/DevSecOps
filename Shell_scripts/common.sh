@@ -5,6 +5,7 @@ install_dependencies () {
       dnf module disable nginx -y
       dnf module enable nginx:1.24 -y
       dnf install nginx -y
+      nginx_setup
       systemd_start nginx
     fi
     if [ $dependencies == "nodejs" ]; then
