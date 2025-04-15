@@ -15,8 +15,8 @@ install_dependencies () {
       systemd_start nodejs
     fi
     if [ $dependencies == "mongodb" ]; then
-      dnf install mongodb-org -y
       mongo_setup
+      dnf install mongodb-org -y
       systemd_start mongod
     fi
   done
