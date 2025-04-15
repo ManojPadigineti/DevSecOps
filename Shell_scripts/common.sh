@@ -9,9 +9,9 @@ install_dependencies () {
       systemd_start nginx
     fi
     if [ $dependencies == "nodejs" ]; then
-      dnf module disable nginx -y
-      dnf module enable nginx:1.24 -y
-      dnf install nginx -y
+      dnf module disable nodejs -y
+      dnf module enable nodejs:20 -y
+      dnf install nodejs -y
     fi
     if [ $dependencies == "mongodb" ]; then
       mongo_setup
@@ -68,10 +68,7 @@ ls /app
  fi
 mkdir /app
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
-cd /app
-unzip /tmp/catalogue.zip
-cd /app
-npm install
+cd /app ; unzip /tmp/catalogue.zip ; npm install
 ls /etc/systemd/system/catalogue.service
  if [ $? -eq 0 ]; then
    rm -rf /etc/systemd/system/catalogue.service
