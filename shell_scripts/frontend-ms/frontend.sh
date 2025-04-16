@@ -1,3 +1,4 @@
 source /root/DevSecOps/shell_scripts/common.sh
-install_dependencies nginx
-# current_dir=$(PWD)
+current_dir=$(PWD)
+app_name=nginx
+install_dependencies $app_name

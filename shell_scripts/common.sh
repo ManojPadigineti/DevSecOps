@@ -41,6 +41,15 @@ systemd_start () {
   systemctl restart $1
 }
 
+copy_systemd_conf () {
+  if [ -f /etc/systemd/system/$app_name.service ]; then
+    echo "Old service file exists. Removing..."
+    rm -rf /etc/systemd/system/$app_name.service
+  fi
+echo "Copying new service file..."
+cp "$current_dir/$app_name.service" /etc/systemd/system/$app_name.service
+}
+
 nginx_setup () {
 current_dir=$(pwd)
 ls /usr/share/nginx/html/* ;
@@ -56,12 +65,7 @@ ls /usr/share/nginx/html/* ;
  unzip /tmp/frontend.zip
  cd $current_dir
  pwd
- ls /etc/nginx/nginx.conf
-   if [ $? -eq 0 ]; then
-     rm -rf /etc/nginx/nginx.conf; cp -R "$current_dir/nginx.conf" /etc/nginx/nginx.conf
-   else
-     cp "$current_dir/nginx.conf" /etc/nginx/nginx.conf
-   fi
+copy_systemd_conf
 }
 
 mongo_setup () {
@@ -69,7 +73,12 @@ cp -R $current_dir/mongo.repo /etc/yum.repos.d/mongo.repo
 }
 
 create_user () {
-useradd $1
+id $1
+  if [ $? -eq 0 ]; then
+    echo User is already available
+  else
+   useradd $1
+  fi
 }
 
 catalogue_setup () {
@@ -82,20 +91,10 @@ curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue
 cd /app
 unzip /tmp/catalogue.zip
 npm install
-ls /etc/systemd/system/catalogue.service
- if [ $? -eq 0 ]; then
-   rm -rf /etc/systemd/system/catalogue.service
- fi
-cp -r $current_dir/catalogue.service /etc/systemd/system/catalogue.service
+copy_systemd_conf
 }
 
 user_setup () {
-id roboshop
-  if [ $? -eq 0 ]; then
-    echo User is already available
-  else
-   create_user $user
-  fi
   if [ -f /app ]; then
     echo Directory /app exist
   else
@@ -109,11 +108,24 @@ curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
 cd /app
 unzip -o /tmp/user.zip
 npm install
-  if [ -f /etc/systemd/system/$app_name.service ]; then
-    echo "Old service file exists. Removing..."
-    rm -rf /etc/systemd/system/$app_name.service
+copy_systemd_conf
+systemd_start $app_name
+}
+
+cart_setup () {
+  if [ -f /app ]; then
+    echo Directory /app exist
+  else
+    mkdir /app
   fi
-echo "Copying new service file..."
-cp "$current_dir/$app_name.service" /etc/systemd/system/$app_name.service
+  if [ -f /tmp/cart.zip ]; then
+    echo File exist removing the file
+    rm -rf /tmp/cart.zip
+  fi
+curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip
+cd /app
+unzip -o /tmp/cart.zip
+npm install
+copy_systemd_conf
 systemd_start $app_name
 }
