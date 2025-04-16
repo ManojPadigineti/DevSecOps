@@ -170,7 +170,7 @@ systemd_start $app_name
 }
 
 rabbitmq_setup () {
-cp $current_dir/$appname.repo /etc/yum.repos.d/$appname.repo
+cp "$current_dir/$appname.repo" /etc/yum.repos.d/rabbitmq.repo
 install_dependencies $app_name
 systemd_start $app_name
 create_user $user1
