@@ -9,4 +9,4 @@ create_user $user
 catalogue_setup
 systemd_start $app_name
 install_dependencies mongodb-mongosh
-mongosh --host 52.70.249.91 </app/db/master-data.js
+mongosh --host 34.239.211.101 </app/db/master-data.js
