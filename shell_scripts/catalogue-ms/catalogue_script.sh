@@ -1,5 +1,5 @@
 # Catalogue Microservice Script
-source /root/DevSecOps/Shell_scripts/common.sh
+source /root/DevSecOps/shell_scripts/common.sh
 app_name=catalogue
 user=roboshop
 current_dir=/root/DevSecOps/Shell_scripts/$app_name-ms
