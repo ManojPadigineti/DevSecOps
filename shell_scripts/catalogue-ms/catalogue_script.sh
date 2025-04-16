@@ -2,7 +2,7 @@
 source /root/DevSecOps/shell_scripts/common.sh
 app_name=catalogue
 user=roboshop
-current_dir=/root/DevSecOps/Shell_scripts/$app_name-ms
+current_dir=/root/DevSecOps/shell_scripts/$app_name-ms
 
 install_dependencies nodejs
 create_user $user
