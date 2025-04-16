@@ -87,6 +87,13 @@ cp -r $current_dir/catalogue.service /etc/systemd/system/catalogue.service
 }
 
 user_setup () {
+id roboshop
+  if [ $? -eq 0 ]; then
+    echo User is already available
+  else
+   create_user
+  fi
+create_user
 ls /app
   if [ $? -eq 0 ]; then
     mkdir /app
@@ -104,7 +111,7 @@ ls /etc/systemd/system/user.service
   if [ $? -ne 0 ]; then
     rm -rf /etc/systemd/system/user.service
   else
-  cp $current_dir/$app_name.service /etc/systemd/system/user.service
+  cp "$current_dir/$app_name.service" /etc/systemd/system/$app_name.service
   fi
 
 }
