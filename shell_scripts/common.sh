@@ -37,6 +37,9 @@ install_dependencies () {
     if [ $dependencies == "maven" ]; then
       dnf install maven -y
     fi
+    if [ $dependencies == "rabbitmq-server" ]; then
+      dnf install rabbitmq-server -y
+    fi
   done
 }
 
@@ -164,4 +167,13 @@ for server in schema app-user master-data
  done
 copy_systemd_conf
 systemd_start $app_name
+}
+
+rabbitmq_setup () {
+cp $current_dir/$appname.repo /etc/yum.repos.d/$appname.repo
+install_dependencies $app_name
+systemd_start $app_name
+create_user $user1
+create_user $user2
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
 }
