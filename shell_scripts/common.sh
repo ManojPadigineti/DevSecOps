@@ -107,7 +107,7 @@ id roboshop
   fi
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
 cd /app
-unzip /tmp/user.zip
+unzip -o /tmp/user.zip
 npm install
   if [ -f /etc/systemd/system/user.service ]; then
     rm -rf /etc/systemd/system/user.service
