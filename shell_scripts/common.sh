@@ -96,7 +96,7 @@ id roboshop
   else
    create_user
   fi
-  if [-f /app ]; then
+  if [ -f /app ]; then
     echo Directory /app exist
   else
     mkdir /app
