@@ -31,6 +31,9 @@ install_dependencies () {
        sed -i -e 's\protected-mode yes\protected-mode no\g' /etc/redis/redis.conf
        systemd_start redis
     fi
+    if [ $dependencies == "mysql" ]; then
+      dnf install mysql-server -y
+    fi
   done
 }
 
@@ -129,3 +132,9 @@ npm install
 copy_systemd_conf
 systemd_start $app_name
 }
+
+mysql_setup () {
+systemd_start $1
+mysql_secure_installation --set-root-pass $password
+}
+
