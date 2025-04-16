@@ -176,5 +176,6 @@ install_dependencies $app_name
 systemd_start $app_name
 create_user $user1
 create_user $user2
+rabbitmqctl add_user roboshop roboshop123
 rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
 }
