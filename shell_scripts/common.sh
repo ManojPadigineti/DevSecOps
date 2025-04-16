@@ -94,12 +94,13 @@ id roboshop
   else
    create_user
   fi
-ls /app
-  if [ $? -eq 0 ]; then
+  if [-f /app ]; then
+    echo Directory /app exist
+  else
     mkdir /app
   fi
   if [ -f /tmp/user.zip ]; then
-    rm -rf /tmp/user.zip
+    echo File exist removing the file ; rm -rf /tmp/user.zip
   fi
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
 cd /app
