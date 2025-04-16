@@ -109,10 +109,11 @@ curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
 cd /app
 unzip -o /tmp/user.zip
 npm install
-  if [ -f /etc/systemd/system/user.service ]; then
-    rm -rf /etc/systemd/system/user.service
-  else
-    cp "$current_dir/$app_name.service" /etc/systemd/system/$app_name.service
+  if [ -f /etc/systemd/system/$app_name.service ]; then
+    echo "Old service file exists. Removing..."
+    rm -rf /etc/systemd/system/$app_name.service
   fi
-  systemd_start $app_name
+echo "Copying new service file..."
+cp "$current_dir/$app_name.service" /etc/systemd/system/$app_name.service
+systemd_start $app_name
 }
