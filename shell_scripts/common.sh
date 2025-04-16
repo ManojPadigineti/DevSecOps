@@ -34,6 +34,9 @@ install_dependencies () {
     if [ $dependencies == "mysql" ]; then
       dnf install mysql-server -y
     fi
+    if [ $dependencies == "maven" ]; then
+      dnf install maven -y
+    fi
   done
 }
 
@@ -138,3 +141,27 @@ systemd_start $1
 mysql_secure_installation --set-root-pass $password
 }
 
+shipping_setup () {
+  if [ -f /app ]; then
+    echo Directory /app exist
+  else
+    mkdir /app
+  fi
+  if [ -f /tmp/shipping.zip ]; then
+    echo File exist removing the file
+    rm -rf /tmp/shipping.zip
+  fi
+curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip
+cd /app
+unzip /tmp/shipping.zip
+cd /app
+mvn clean package
+mv target/shipping-1.0.jar shipping.jar
+copy_systemd_conf
+install_dependencies mysql
+for server in schema app-user master-data
+ do
+   mysql -h 54.85.128.68 -uroot -pRoboShop@1 < "/app/db/$server.sql"
+ done
+systemd_start $app_name
+}
