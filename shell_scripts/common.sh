@@ -153,15 +153,15 @@ shipping_setup () {
   fi
 curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip
 cd /app
-unzip /tmp/shipping.zip
+unzip -o /tmp/shipping.zip
 cd /app
 mvn clean package
 mv target/shipping-1.0.jar shipping.jar
-copy_systemd_conf
 install_dependencies mysql
 for server in schema app-user master-data
  do
    mysql -h 54.85.128.68 -uroot -pRoboShop@1 < "/app/db/$server.sql"
  done
+copy_systemd_conf
 systemd_start $app_name
 }

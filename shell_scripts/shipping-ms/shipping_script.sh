@@ -3,7 +3,6 @@ app_name=shipping
 current_dir=$(PWD)
 user=roboshop
 
-
-install_dependencies maven
 create_user $user
+install_dependencies maven
 shipping_setup
