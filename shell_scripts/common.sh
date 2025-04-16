@@ -47,6 +47,7 @@ ls /usr/share/nginx/html/* ;
  cd /usr/share/nginx/html
  unzip /tmp/frontend.zip
  cd $current_dir
+ pwd
  ls /etc/nginx/nginx.conf
    if [ $? -eq 0 ]; then
      rm -rf /etc/nginx/nginx.conf; cp -R "$current_dir/nginx.conf" /etc/nginx/nginx.conf
