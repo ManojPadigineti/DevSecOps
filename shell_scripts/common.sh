@@ -99,9 +99,8 @@ ls /app
   fi
   if [ -f /tmp/user.zip ]; then
     rm -rf /tmp/user.zip
-  else
-    curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
   fi
+curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
 cd /app
 unzip /tmp/user.zip
 npm install
