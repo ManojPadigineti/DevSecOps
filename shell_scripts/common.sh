@@ -48,9 +48,10 @@ ls /usr/share/nginx/html/* ;
  cd $current_dir
  ls /etc/nginx/nginx.conf
    if [ $? -eq 0 ]; then
-     rm -rf /etc/nginx/nginx.conf
+     rm -rf /etc/nginx/nginx.conf; cp -R $current_dir/nginx.conf /etc/nginx/nginx.conf
+   else
+     cp -R $current_dir/nginx.conf /etc/nginx/nginx.conf
    fi
- cp -R $current_dir/nginx.conf /etc/nginx/nginx.conf
 }
 
 mongo_setup () {
