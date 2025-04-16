@@ -94,7 +94,7 @@ id roboshop
   if [ $? -eq 0 ]; then
     echo User is already available
   else
-   create_user
+   create_user $user
   fi
   if [ -f /app ]; then
     echo Directory /app exist
