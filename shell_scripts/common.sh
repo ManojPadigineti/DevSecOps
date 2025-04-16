@@ -85,3 +85,26 @@ ls /etc/systemd/system/catalogue.service
  fi
 cp -r $current_dir/catalogue.service /etc/systemd/system/catalogue.service
 }
+
+user_setup () {
+ls /app
+  if [ $? -eq 0 ]; then
+    mkdir /app
+  fi
+ls /tmp/user.zip
+  if [ $? -eq 0 ]; then
+    rm -rf /tmp/user.zip
+  else
+    curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
+  fi
+cd /app
+unzip /tmp/user.zip
+npm install
+ls /etc/systemd/system/user.service
+  if [ $? -ne 0 ]; then
+    rm -rf /etc/systemd/system/user.service
+  else
+  cp $current_dir/$app_name.service /etc/systemd/system/user.service
+  fi
+
+}
