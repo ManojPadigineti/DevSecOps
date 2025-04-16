@@ -23,6 +23,13 @@ install_dependencies () {
       mongo_setup
       dnf install mongodb-mongosh -y
     fi
+    if [ $dependencies == "redis" ]; then
+       dnf module disable redis -y
+       dnf module enable redis:7 -y
+       dnf install redis -y
+       sed -e -i 's\127.0.0.1\0.0.0.0' /etc/redis/redis.conf
+       systemd_start redis
+    fi
   done
 }
 
