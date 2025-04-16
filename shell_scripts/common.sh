@@ -28,6 +28,7 @@ install_dependencies () {
        dnf module enable redis:7 -y
        dnf install redis -y
        sed -i -e 's\127.0.0.1\0.0.0.0\g' /etc/redis/redis.conf
+       sed -i -e 's\protected-mode yes\protected-mode no\g' /etc/redis/redis.conf
        systemd_start redis
     fi
   done
