@@ -112,5 +112,5 @@ ls /etc/systemd/system/user.service
   else
   cp "$current_dir/$app_name.service" /etc/systemd/system/$app_name.service
   fi
-
+  systemd_start $app_name
 }

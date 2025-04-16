@@ -2,5 +2,5 @@ source /root/DevSecOps/shell_scripts/common.sh
 install_dependencies nodejs
 current_dir=$(pwd)
 app_name=user
-systemd_start $app_name
+user_setup
 
