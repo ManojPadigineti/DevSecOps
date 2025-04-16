@@ -79,7 +79,9 @@ ls /app
  fi
 mkdir /app
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
-cd /app ; unzip /tmp/catalogue.zip ; npm install
+cd /app
+unzip /tmp/catalogue.zip
+npm install
 ls /etc/systemd/system/catalogue.service
  if [ $? -eq 0 ]; then
    rm -rf /etc/systemd/system/catalogue.service
@@ -100,7 +102,8 @@ id roboshop
     mkdir /app
   fi
   if [ -f /tmp/user.zip ]; then
-    echo File exist removing the file ; rm -rf /tmp/user.zip
+    echo File exist removing the file
+    rm -rf /tmp/user.zip
   fi
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
 cd /app
