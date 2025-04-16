@@ -50,7 +50,7 @@ ls /usr/share/nginx/html/* ;
    if [ $? -eq 0 ]; then
      rm -rf /etc/nginx/nginx.conf; cp -R $current_dir/nginx.conf /etc/nginx/nginx.conf
    else
-     cp -R $current_dir/nginx.conf /etc/nginx/nginx.conf
+     cp -R "$current_dir/nginx.conf" /etc/nginx/nginx.conf
    fi
 }
 
