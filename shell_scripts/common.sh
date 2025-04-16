@@ -93,7 +93,6 @@ id roboshop
   else
    create_user
   fi
-create_user
 ls /app
   if [ $? -eq 0 ]; then
     mkdir /app
