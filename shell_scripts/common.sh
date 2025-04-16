@@ -97,8 +97,7 @@ ls /app
   if [ $? -eq 0 ]; then
     mkdir /app
   fi
-ls /tmp/user.zip
-  if [ $? -eq 0 ]; then
+  if [ -f /tmp/user.zip ]; then
     rm -rf /tmp/user.zip
   else
     curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
@@ -106,11 +105,10 @@ ls /tmp/user.zip
 cd /app
 unzip /tmp/user.zip
 npm install
-ls /etc/systemd/system/user.service
-  if [ $? -ne 0 ]; then
+  if [ -f /etc/systemd/system/user.service ]; then
     rm -rf /etc/systemd/system/user.service
   else
-  cp "$current_dir/$app_name.service" /etc/systemd/system/$app_name.service
+    cp "$current_dir/$app_name.service" /etc/systemd/system/$app_name.service
   fi
   systemd_start $app_name
 }
