@@ -43,6 +43,9 @@ install_dependencies () {
     if [ $dependencies == "python" ]; then
       dnf install python3 gcc python3-devel -y
     fi
+    if [ $dependencies == "golang" ]; then
+      dnf install golang -y
+    fi
   done
 }
 
@@ -61,6 +64,19 @@ copy_systemd_conf () {
 echo "Copying new service file..."
 cp "$current_dir/$app_name.service" /etc/systemd/system/$app_name.service
 }
+
+create_user () {
+id $1
+  if [ $? -eq 0 ]; then
+    echo User is already available
+  else
+   useradd $1
+  fi
+}
+
+########################
+#### Microservices #####
+########################
 
 nginx_setup () {
 current_dir=$(pwd)
@@ -84,14 +100,6 @@ mongo_setup () {
 cp -R $current_dir/mongo.repo /etc/yum.repos.d/mongo.repo
 }
 
-create_user () {
-id $1
-  if [ $? -eq 0 ]; then
-    echo User is already available
-  else
-   useradd $1
-  fi
-}
 
 catalogue_setup () {
 ls /app
@@ -198,6 +206,27 @@ cd /app
 unzip -o /tmp/payment.zip
 cd /app
 pip3 install -r requirements.txt
+copy_systemd_conf
+systemd_start $app_name
+}
+
+dispatch_setup () {
+  if [ -f /app ]; then
+    echo Directory /app exist
+  else
+    mkdir /app
+  fi
+  if [ -f /tmp/dispatch.zip ]; then
+    echo File exist removing the file
+    rm -rf /tmp/dispatch.zip
+  fi
+curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip
+cd /app
+unzip /tmp/dispatch.zip
+cd /app
+go mod init dispatch
+go get
+go build
 copy_systemd_conf
 systemd_start $app_name
 }
