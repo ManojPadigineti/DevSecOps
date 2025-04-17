@@ -88,12 +88,18 @@ ls /usr/share/nginx/html/* ;
    if [ $? -eq 0 ]; then
      rm -rf /tmp/frontend.zip
    fi
- curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
- cd /usr/share/nginx/html
- unzip /tmp/frontend.zip
- cd $current_dir
- pwd
+curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+cd /usr/share/nginx/html
+unzip /tmp/frontend.zip
+cd $current_dir
+pwd
+   if [ -f /etc/nginx/nginx.conf ]; then
+     echo nginx.conf file exist removing the file
+     rm -rf /etc/nginx/nginx.conf
+   fi
+cp $current_dir/$app_name.conf /etc/nginx/nginx.conf
 copy_systemd_conf
+systemd_start $$app_name
 }
 
 mongo_setup () {
