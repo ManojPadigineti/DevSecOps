@@ -99,7 +99,7 @@ pwd
    fi
 cp $current_dir/$app_name.conf /etc/nginx/nginx.conf
 copy_systemd_conf
-systemd_start $$app_name
+systemd_start $app_name
 }
 
 mongo_setup () {
