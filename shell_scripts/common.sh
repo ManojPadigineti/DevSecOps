@@ -222,7 +222,7 @@ dispatch_setup () {
   fi
 curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip
 cd /app
-unzip /tmp/dispatch.zip
+unzip -o /tmp/dispatch.zip
 cd /app
 go mod init dispatch
 go get
