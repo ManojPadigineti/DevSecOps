@@ -5,4 +5,4 @@ source $current_dir/../common.sh
 
 install_dependencies golang
 create_user $user
-
+dispatch_setup
