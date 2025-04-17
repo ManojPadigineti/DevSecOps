@@ -174,7 +174,7 @@ mv target/shipping-1.0.jar shipping.jar
 install_dependencies mysql
 for server in schema app-user master-data
  do
-   mysql -h 54.85.128.68 -uroot -pRoboShop@1 < "/app/db/$server.sql"
+   mysql -h $MY_SQL_IP -uroot -pRoboShop@1 < "/app/db/$server.sql"
  done
 copy_systemd_conf
 systemd_start $app_name
