@@ -1,3 +1,3 @@
-source /root/DevSecOps/shell_scripts/common.sh
-current_dir=/root/DevSecOps/shell_scripts/mongo-db-ms
+current_dir=$(pwd)
+source $current_dir/../common.sh
 install_dependencies mongodb

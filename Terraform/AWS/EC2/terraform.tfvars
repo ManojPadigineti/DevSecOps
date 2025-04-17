@@ -27,11 +27,6 @@ private_subnet = {
   }
 }
 
-# ami = {
-#   name = "RHEL-9-DevOps-Practice"
-#   values = "ami-008e7b65af911ed5c"
-# }
-
 public-ec2 = {
   "Frontend-server" = {
     instance_type = "t2.micro"
@@ -40,57 +35,55 @@ public-ec2 = {
   }
 }
 
-
-
 private-ec2 = {
   "catalogue-server" = {
     instance_type = "t2.micro"
     subnet_id_key = "rb-private-subnet"
-    name = "rb-catalogue-server"
+    name = "catalogue-server"
   }
-  # "mongodb-server" = {
-  #   instance_type = "t2.micro"
-  #   subnet_id_key = "rb-private-subnet"
-  #   name = "rb-mongodb-server"
-  # }
-  # "redis-server" = {
-  #   instance_type = "t2.micro"
-  #   subnet_id_key = "rb-private-subnet"
-  #   name = "rb-redis-server"
-  # }
-  # "user-server" = {
-  #   instance_type = "t2.micro"
-  #   subnet_id_key = "rb-private-subnet"
-  #   name = "rb-user-server"
-  # }
-  # "cart-server" = {
-  #   instance_type = "t2.micro"
-  #   subnet_id_key = "rb-private-subnet"
-  #   name = "rb-cart-server"
-  # }
-  # "mysql-server" = {
-  #   instance_type = "t2.micro"
-  #   subnet_id_key = "rb-private-subnet"
-  #   name = "rb-mysql-server"
-  # }
-  # "shipping-server" = {
-  #   instance_type = "t2.micro"
-  #   subnet_id_key = "rb-private-subnet"
-  #   name = "rb-shipping-server"
-  # }
-  # "rabbitmq-server" = {
-  #   instance_type = "t2.micro"
-  #   subnet_id_key = "rb-private-subnet"
-  #   name = "rb-rabbitmq-server"
-  # }
-  # "payment-server" = {
-  #   instance_type = "t2.micro"
-  #   subnet_id_key = "rb-private-subnet"
-  #   name = "rb-payment-server"
-  # }
-  # "dispatch-server" = {
-  #   instance_type = "t2.micro"
-  #   subnet_id_key = "rb-private-subnet"
-  #   name = "rb-dispatch-server"
-  # }
+  "mongodb-server" = {
+    instance_type = "t2.micro"
+    subnet_id_key = "rb-private-subnet"
+    name = "mongodb-server"
+  }
+  "redis-server" = {
+    instance_type = "t2.micro"
+    subnet_id_key = "rb-private-subnet"
+    name = "redis-server"
+  }
+  "user-server" = {
+    instance_type = "t2.micro"
+    subnet_id_key = "rb-private-subnet"
+    name = "user-server"
+  }
+  "cart-server" = {
+    instance_type = "t2.micro"
+    subnet_id_key = "rb-private-subnet"
+    name = "cart-server"
+  }
+  "mysql-server" = {
+    instance_type = "t2.micro"
+    subnet_id_key = "rb-private-subnet"
+    name = "mysql-server"
+  }
+  "shipping-server" = {
+    instance_type = "t2.micro"
+    subnet_id_key = "rb-private-subnet"
+    name = "shipping-server"
+  }
+  "rabbitmq-server" = {
+    instance_type = "t2.micro"
+    subnet_id_key = "rb-private-subnet"
+    name = "rabbitmq-server"
+  }
+  "payment-server" = {
+    instance_type = "t2.micro"
+    subnet_id_key = "rb-private-subnet"
+    name = "payment-server"
+  }
+  "dispatch-server" = {
+    instance_type = "t2.micro"
+    subnet_id_key = "rb-private-subnet"
+    name = "dispatch-server"
+  }
 }

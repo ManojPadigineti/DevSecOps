@@ -5,7 +5,6 @@ variable "project-vpc" {
   })
 }
 
-
 variable "igw" {
   type = string
 }
@@ -22,7 +21,6 @@ variable "public_subnet" {
   }))
 }
 
-
 variable "private_subnet" {
   type = map(object({
     name = string
@@ -30,20 +28,6 @@ variable "private_subnet" {
     av = string
   }))
 }
-
-# variable "ami" {
-#   type = object({
-#     name = string
-#     values = string
-#   })
-# }
-
-# variable "ami" {
-#   type = map(object({
-#     name = string
-#     values = list(string)
-#   }))
-# }
 
 variable "public-ec2" {
   type = map(object({
