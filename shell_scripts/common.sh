@@ -40,6 +40,9 @@ install_dependencies () {
     if [ $dependencies == "rabbitmq-server" ]; then
       dnf install rabbitmq-server -y
     fi
+    if [ $dependencies == "python" ]; then
+      dnf install python3 gcc python3-devel -y
+    fi
   done
 }
 
@@ -178,4 +181,23 @@ create_user $user1
 create_user $user2
 rabbitmqctl add_user roboshop roboshop123
 rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+}
+
+payment_setup () {
+  if [ -f /app ]; then
+    echo Directory /app exist
+  else
+    mkdir /app
+  fi
+  if [ -f /tmp/payment.zip ]; then
+    echo File exist removing the file
+    rm -rf /tmp/payment.zip
+  fi
+curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
+cd /app
+unzip -o /tmp/payment.zip
+cd /app
+pip3 install -r requirements.txt
+copy_systemd_conf
+systemd_start $app_name
 }
