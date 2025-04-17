@@ -112,7 +112,6 @@ cd /app
 unzip /tmp/catalogue.zip
 npm install
 copy_systemd_conf
-mongosh --host $MONGO_IP </app/db/master-data.js
 }
 
 user_setup () {
