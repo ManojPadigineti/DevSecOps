@@ -33,11 +33,6 @@ public-ec2 = {
     subnet_id_key = "rb-public-subnet"
     name = "frontend-server"
   }
-  "practice-public-server" = {
-    instance_type = "t2.micro"
-    subnet_id_key = "rb-public-subnet"
-    name = "practice-public-server"
-  }
 }
 
 private-ec2 = {
@@ -90,10 +85,5 @@ private-ec2 = {
     instance_type = "t2.micro"
     subnet_id_key = "rb-private-subnet"
     name = "dispatch-server"
-  }
-  "practice-private-server" = {
-    instance_type = "t2.micro"
-    subnet_id_key = "rb-private-subnet"
-    name = "practice-private-server"
   }
 }
