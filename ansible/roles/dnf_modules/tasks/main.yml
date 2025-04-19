@@ -1,0 +1,13 @@
+- name: "installing {{ app_name }}"
+  dnf:
+    name: "{{ app_name }}:1.24"
+    state: enabled
+    update_cache: true
+    when: "{{ app_name }}" == "nginx"
+
+- name: Disable nginx module
+  ansible.builtin.dnf:
+    name: nginx
+    state: disabled
+    disable_modular_filtering: true
+    when: "{{ app_name }}" == "nginx"
