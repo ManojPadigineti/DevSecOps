@@ -8,15 +8,21 @@
     path: /usr/share/nginx/html/*
     state: absent
 
+- name: Download zip file
+  ansible.builtin.get_url:
+    url: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+    dest: /tmp/frontend.zip
+
 - name: Unarchive the file into /usr/share/nginx/html
   ansible.builtin.unarchive:
-    src: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
-    dest: /usr/share/nginx/html
+    src: /tmp/frontend.zip
+    dest: /usr/share/nginx/html/
+    remote_src: yes
 
-- name: Copy a new sudoers file into place, after passing validation with visudo
+- name: copy nginx.conf
   ansible.builtin.template:
     src: nginx.conf
-    dest: /etc/sudoers
+    dest: /etc/nginx/nginx.conf
 
 - name: Import systemd and start nginx
   ansible.builtin.import_role:
