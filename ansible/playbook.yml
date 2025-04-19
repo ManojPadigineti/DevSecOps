@@ -2,7 +2,7 @@
   hosts: "{{ server }}"
   become: true
   vars:
-    var_file: {{ var_file }}
+    var_file: "{{ var_file }}"
   vars_files:
    - "{{ var_file }}_vars.yml"
   roles:
