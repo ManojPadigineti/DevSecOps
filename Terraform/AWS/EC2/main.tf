@@ -189,7 +189,7 @@ resource "aws_instance" "private_ec2" {
   for_each = var.private-ec2
   ami                    = data.aws_ami.amazon_linux.id
   instance_type          = each.value.instance_type
-  subnet_id              = aws_subnet.private[each.value.subnet_id_key].id
+  subnet_id              = aws_subnet.private[each.value.subnet_id_key].id #var.private_subnet[each.value.subnet_id_key].name (Both are correct)
   vpc_security_group_ids = [aws_security_group.allow_all_sg.id]
   tags = { Name = each.value.name }
 }
