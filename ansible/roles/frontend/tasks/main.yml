@@ -2,3 +2,8 @@
   ansible.builtin.import_role:
     name: dnf_modules
     tasks_from: main.yml
+
+- name: Import systemd and start nginx
+  ansible.builtin.import_role:
+    name: systemd
+    tasks_from: main.yml
