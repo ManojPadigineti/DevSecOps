@@ -1,8 +1,6 @@
 - name: Ansible Playbook
   hosts: "{{ server }}"
   become: true
-  vars:
-    var_file: frontend
   vars_files:
    - "{{ var_file }}_vars.yml"
   roles:
