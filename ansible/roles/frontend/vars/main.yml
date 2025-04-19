@@ -1,3 +1,0 @@
-app_name: nginx
-role_name: dnf_modules
-server: frontend
