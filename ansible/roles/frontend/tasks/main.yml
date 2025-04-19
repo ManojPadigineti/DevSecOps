@@ -3,6 +3,21 @@
     name: dnf_modules
     tasks_from: main.yml
 
+- name: Remove html file (delete file)
+  ansible.builtin.file:
+    path: /usr/share/nginx/html/*
+    state: absent
+
+- name: Unarchive the file into /usr/share/nginx/html
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+    dest: /usr/share/nginx/html
+
+- name: Copy a new sudoers file into place, after passing validation with visudo
+  ansible.builtin.template:
+    src: nginx.conf
+    dest: /etc/sudoers
+
 - name: Import systemd and start nginx
   ansible.builtin.import_role:
     name: systemd

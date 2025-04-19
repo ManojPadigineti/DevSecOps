@@ -1,3 +1,8 @@
 app_name: nginx
 server: frontend
 role_name: frontend
+catalogue_ip: 10.128.0.57
+user_ip: 10.128.0.57
+cart_ip: 10.128.0.57
+shipping_ip: 10.128.0.57
+payment_ip: 10.128.0.57
