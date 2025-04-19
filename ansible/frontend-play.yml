@@ -2,6 +2,6 @@
   hosts: "{{ server }}"
   become: true
   vars_files:
-   - vars.txt
+   - vars.yml
   roles:
     - "{{ role_name }}"
