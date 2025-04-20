@@ -16,7 +16,7 @@
   ansible.builtin.template:
     src: catalogue.service
     dest: /etc/systemd/system/catalogue.service
-    owner: "{{ user }}"
+    owner: "{{ dir_owner }}"
     mode: '0744'
 
 - name: Import create_directory

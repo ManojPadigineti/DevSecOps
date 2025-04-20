@@ -10,6 +10,7 @@ mongo_ip: 10.0.2.20
 server: catalogue
 user:
   - "roboshop"
+dir_owner: "roboshop"
 directory_path: /app
 microservice_name: catalogue
 copy_repo: mongodb
