@@ -8,7 +8,7 @@
     path: /etc/redis/redis.conf
     regexp: "{{ item.before }}"
     replace: "{{ item.after }}"
-  loops:
+  loop:
     - { before: "127.0.0.1", after: "0.0.0.0" }
     - { before: "protected-mode yes", after: "protected-mode no" }
 
