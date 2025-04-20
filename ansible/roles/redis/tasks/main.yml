@@ -14,5 +14,5 @@
 
 - name: Systemd start redis
   ansible.builtin.import_role:
-    name: dnf_modules
+    name: systemd
     tasks_from: main.yml
