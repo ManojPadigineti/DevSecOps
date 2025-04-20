@@ -34,7 +34,6 @@
   ansible.builtin.template:
     src: dispatch.service
     dest: /etc/systemd/system/dispatch.service
-  become_user: "{{ dir_owner }}"
 
 - name: Unzip files
   ansible.builtin.unarchive:
