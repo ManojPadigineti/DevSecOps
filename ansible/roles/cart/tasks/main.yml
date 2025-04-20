@@ -19,6 +19,11 @@
     dest: "{{ directory_path }}"
     remote_src: yes
 
+- name: Copy user service file
+  ansible.builtin.template:
+    src: cart.service
+    dest: /etc/systemd/system/cart.service
+
 - name: Execute NPM Install Command
   ansible.builtin.shell: npm install
   args:
