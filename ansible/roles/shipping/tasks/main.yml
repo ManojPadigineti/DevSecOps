@@ -32,7 +32,7 @@
     dest: /etc/systemd/system/shipping.service
 
 - name: Execute mvn package
-  ansible.builtin.shell: mysql -h "{{ mysql_ip }}" -uroot -p"{{ rb_password }}" < /app/db/"{{ schemas }}".sql
+  ansible.builtin.shell: cd "{{ directory_path }}" ; mysql -h "{{ mysql_ip }}" -uroot -p"{{ rb_password }}" < /app/db/"{{ schemas }}".sql
   loop: "{{ schemas }}"
 
 - name: Systemd start service
