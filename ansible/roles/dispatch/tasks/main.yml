@@ -25,8 +25,7 @@
   become: yes
 
 - name: Execute permissions to user
-  ansible.builtin.shell: "chmod -R 777 /home/{{ dir_owner }}"
-  become: yes
+  ansible.builtin.shell: "chown -R {{ dir_owner }}:{{ dir_owner }} {{ directory_path }} ; chmod -R 777 /home/{{ dir_owner }}"
 
 - name: Create Directory
   ansible.builtin.import_role:
@@ -44,10 +43,6 @@
     dest: "{{ directory_path }}"
     remote_src: yes
   become: true
-
-- name: Execute permissions to user
-  ansible.builtin.shell: "chown -R {{ dir_owner }}:{{ dir_owner }} {{ directory_path }}"
-  become: yes
 
 - name: Execute go commands
   ansible.builtin.shell: "cd {{ directory_path }} ; {{ item }}"
