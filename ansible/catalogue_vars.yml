@@ -8,7 +8,8 @@ enable_app_version: "20"
 systemd_app_name: catalogue
 mongo_ip: 10.0.2.20
 server: catalogue
-user: roboshop
+user:
+  - "roboshop"
 directory_path: /app
 microservice_name: catalogue
 copy_repo: mongodb
