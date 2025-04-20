@@ -1,3 +1,4 @@
+role_name: catalogue
 app_install:
   - { name: "nodejs" , version: ":20" }
   - { name: "mongodb-mongosh", version: "" }
@@ -5,7 +6,6 @@ enable_app_version: ":20"
 systemd_app_name: catalogue
 mongo_ip: 10.128.0.57
 server: catalogue
-role_name: catalogue
 user: roboshop
 directory_path: /app
 microservice_name: catalogue
