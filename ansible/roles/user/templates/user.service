@@ -5,7 +5,7 @@ User=roboshop
 Environment=MONGO=true
 Environment=REDIS_URL='redis://{{ redis_ip }}:6379'
 Environment=MONGO_URL="mongodb://{{ mongo_ip }}:27017/users"
-ExecStart=/bin/node /app/server.js
+ExecStart=/bin/node /app/user/server.js
 SyslogIdentifier=user
 
 [Install]
