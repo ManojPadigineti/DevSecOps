@@ -17,6 +17,11 @@
     name: create_directory
     tasks_from: main.yml
 
+- name: Copy service file
+  ansible.builtin.template:
+    src: dispatch.service
+    dest: /etc/systemd/system/dispatch.service
+
 - name: Unzip files
   ansible.builtin.unarchive:
     src: https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip
