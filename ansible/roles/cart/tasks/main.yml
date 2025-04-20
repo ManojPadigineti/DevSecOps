@@ -1,3 +1,7 @@
+- name: Configuring "{{ microservice_name }}"
+  ansible.builtin.debug:
+    msg: Building "{{ microservice_name }}" microservice
+
 - name: Import dnf_installation
   ansible.builtin.import_role:
     name: dnf_modules

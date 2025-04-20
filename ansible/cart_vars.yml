@@ -9,4 +9,5 @@ directory_path: "/app"
 redis_ip: "10.128.0.57"
 catalogue_ip: "10.128.0.57"
 systemd_app_name: "cart"
+microservice_name: "cart"
 
