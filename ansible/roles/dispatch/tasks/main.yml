@@ -27,10 +27,14 @@
     src: https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip
     dest: "{{ directory_path }}"
     remote_src: yes
+  become: yes
+  become_user: "{{ dir_owner }}"
 
 - name: Execute go commands
-  ansible.builtin.shell: "cd {{ directory_path }} ; go {{ item }}"
+  ansible.builtin.shell: "cd {{ directory_path }} ; {{ item }}"
   loop: "{{ execute_go }}"
+  become: yes
+  become_user: "{{ dir_owner }}"
 
 - name: create systemd service
   ansible.builtin.import_role:

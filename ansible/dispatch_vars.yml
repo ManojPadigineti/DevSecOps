@@ -10,7 +10,7 @@ user:
 dir_owner: "roboshop"
 directory_path: "/app"
 execute_go:
-  - mod init dispatch
-  - get
-  - build
+  - go mod init dispatch
+  - go get
+  - go build
 systemd_app_name: "dispatch"
