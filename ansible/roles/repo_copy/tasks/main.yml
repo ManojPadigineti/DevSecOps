@@ -1,5 +1,4 @@
 - name: Copy mongodb repo to /etc/yum.repos.d/mongo.repo
   ansible.builtin.copy:
-    src: mongo.repo
-    dest: /etc/yum.repos.d/mongo.repo
-  when: copy_repo == "mongodb"
+    src: "{{repo_name}}".repo
+    dest: /etc/yum.repos.d/"{{repo_name}}".repo
