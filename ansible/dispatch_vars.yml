@@ -1,0 +1,14 @@
+role_name: dispatch
+server: dispatch
+microservice_name: "dispatch"
+app_install:
+  - { name: "golang", version: ""}
+user:
+  - "roboshop"
+  - "roboshop123"
+directory_path: "/app"
+execute_go:
+  - mod init dispatch
+  - get
+  - build
+systemd_app_name: "dispatch"
