@@ -24,6 +24,9 @@
     recurse: yes
   become: yes
 
+- name: Execute permissions to user
+  ansible.builtin.shell: "chmod -R 777 /home/{{ dir_owner }}"
+  become: yes
 
 - name: Create Directory
   ansible.builtin.import_role:
