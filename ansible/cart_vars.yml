@@ -1,0 +1,12 @@
+role_name: "cart"
+server: "cart"
+enable_app_version: "20"
+disable_enable_app: "nodejs"
+app_install:
+  - { name: "nodejs" , version: ""}
+user: "roboshop"
+directory_path: "/app"
+redis_ip: "10.128.0.57"
+catalogue_ip: "10.128.0.57"
+systemd_app_name: "cart"
+
