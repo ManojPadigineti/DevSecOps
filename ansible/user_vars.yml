@@ -1,6 +1,7 @@
 role_name: user
 server: user
-app_install: "nodejs"
+app_install:
+  - { name: "nodejs" , version: "" }
 disable_enable_app: "nodejs"
 enable_app_version: "20"
 user: "roboshop"
