@@ -5,7 +5,7 @@
 
 - name: Import dnf_module to install rabbitmq-server
   ansible.builtin.import_role:
-    name: dnf_module
+    name: dnf_modules
     tasks_from: main.yml
 
 - name: Import systemd to start rabbitmq service
