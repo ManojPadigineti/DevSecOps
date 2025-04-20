@@ -1,3 +1,5 @@
+role_name: payment
+server: payment
 microservice_name: "payment"
 app_install:
   - { name: "python3 " , version: "" }
