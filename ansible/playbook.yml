@@ -1,6 +1,5 @@
 - name: Ansible Playbook
-  hosts: localhost
-  connection: local #"{{ server }}"
+  hosts: "{{ server }}"
   become: true
   vars:
     var_file: "{{ var_file }}"
