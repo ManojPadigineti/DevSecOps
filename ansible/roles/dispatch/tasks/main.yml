@@ -14,6 +14,17 @@
     tasks_from: main.yml
   become: true
 
+- name: Ensure ~/.cache exists and has correct permissions
+  ansible.builtin.file:
+    path: "/home/{{ dir_owner }}/.cache"
+    state: directory
+    owner: "{{ dir_owner }}"
+    group: "{{ dir_owner }}"
+    mode: '0755'
+    recurse: yes
+  become: yes
+
+
 - name: Create Directory
   ansible.builtin.import_role:
     name: create_directory
