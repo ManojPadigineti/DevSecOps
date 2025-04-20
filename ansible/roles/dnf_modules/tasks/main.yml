@@ -1,5 +1,5 @@
 - name: Disable nginx module
-  ansible.builtin.shell: dnf module disable {{ app_install }} -y ; dnf module enable {{ app_install }}:{{ enable_app_version }} -y
+  ansible.builtin.shell: dnf module disable {{ disable_enable_app }} -y ; dnf module enable {{ disable_enable_app }}:{{ enable_app_version }} -y
   when: enable_app_version is defined
 
 #- name: "Install Unzip"
