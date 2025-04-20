@@ -2,6 +2,7 @@ role_name: catalogue
 app_install:
   - { name: "nodejs" , version: "" }
   - { name: "mongodb-mongosh", version: "" }
+repo_name: "mongo"
 disable_enable_app: nodejs
 enable_app_version: "20"
 systemd_app_name: catalogue
