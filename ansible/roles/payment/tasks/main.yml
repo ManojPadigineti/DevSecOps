@@ -33,5 +33,5 @@
 
 - name: Systemd service start
   ansible.builtin.import_role:
-    name: dnf_modules
+    name: systemd
     tasks_from: main.yml
