@@ -5,7 +5,7 @@ app_install:
 disable_enable_app: nodejs
 enable_app_version: "20"
 systemd_app_name: catalogue
-mongo_ip: 10.128.0.57
+mongo_ip: 10.0.2.20
 server: catalogue
 user: roboshop
 directory_path: /app

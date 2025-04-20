@@ -6,8 +6,8 @@ app_install:
   - { name: "nodejs" , version: ""}
 user: "roboshop"
 directory_path: "/app"
-redis_ip: "10.128.0.57"
-catalogue_ip: "10.128.0.57"
+redis_ip: "10.0.2.51"
+catalogue_ip: "10.0.2.80"
 systemd_app_name: "cart"
 microservice_name: "cart"
 
