@@ -2,6 +2,14 @@
   ansible.builtin.shell: dnf module disable {{ disable_enable_app }} -y ; dnf module enable {{ disable_enable_app }}:{{ enable_app_version }} -y
   when: enable_app_version is defined
 
+- name: "installing {{ app_install }}"
+  ansible.builtin.dnf:
+    name: "{{ item.name }}{{ item.version }}"
+    state: installed
+    update_cache: true
+  loop: "{{ app_install }}"
+
+
 #- name: "Install Unzip"
 #  ansible.builtin.dnf:
 #    name:
@@ -37,11 +45,4 @@
 #    update_cache: true
 #  when: app_install == "nodejs"
 
-
-- name: "installing {{ app_install }}"
-  ansible.builtin.dnf:
-    name: "{{ item.name }}{{ item.version }}"
-    state: installed
-    update_cache: true
-  loop: "{{ app_install }}"
 
