@@ -17,6 +17,7 @@
   ansible.builtin.unarchive:
     src: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
     dest: "{{  directory_path }}"
+    remote_src: yes
 
 - name: NPM Install
   ansible.builtin.shell: npm install
