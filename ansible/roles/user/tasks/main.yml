@@ -16,12 +16,12 @@
 - name: Untar the zipfile
   ansible.builtin.unarchive:
     src: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
-    dest: {{  directory_path }}
+    dest: "{{  directory_path }}"
 
 - name: NPM Install
   ansible.builtin.shell: npm install
   args:
-    chdir: {{ directory_path }}
+    chdir: "{{ directory_path }}"
 
 - name: Copy user service file
   ansible.builtin.template:
