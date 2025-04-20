@@ -1,25 +1,47 @@
 - name: Disable nginx module
-  ansible.builtin.shell: dnf module disable {{ app_name }} -y ; dnf module enable {{ app_name }}:1.24 -y
-  when: app_name == "nginx"
+  ansible.builtin.shell: dnf module disable {{ app_install }} -y ; dnf module enable {{ app_install }}:{{ enable_app_version }} -y
+  when: enable_app_version is defined
 
-- name: "Install Unzip"
-  ansible.builtin.dnf:
-    name:
-      - unzip
-      - wget
-    state: installed
+#- name: "Install Unzip"
+#  ansible.builtin.dnf:
+#    name:
+#      - unzip
+#      - wget
+#    state: installed
+#
+#- name: "installing {{ app_install }}"
+#  ansible.builtin.dnf:
+#    name: "{{ app_install }}{{ app_install_version }}" #1:1.24.0-4.module_el9+1087+9adf8b0f
+#    state: installed
+#    update_cache: true
+#  when: app_install == "nginx"
+#
+#- name: "installing {{ app_install }}"
+#  ansible.builtin.dnf:
+#    name: "{{ app_install }}"
+#    state: installed
+#    update_cache: true
+#  when: app_install == "mongodb-org"
+#
+#- name: "installing {{ app_install }}"
+#  ansible.builtin.dnf:
+#    name: "{{ app_install }}"
+#    state: installed
+#    update_cache: true
+#  when: app_install == "mongodb-mongosh"
+#
+#- name: "installing {{ app_install }}"
+#  ansible.builtin.dnf:
+#    name: "{{ app_install }}"
+#    state: installed
+#    update_cache: true
+#  when: app_install == "nodejs"
 
-- name: "installing {{ app_name }}"
+
+- name: "installing {{ app_install }}"
   ansible.builtin.dnf:
-    name: "{{ app_name }}-1:1.24.0-4.module_el9+1087+9adf8b0f"
+    name: "{{ item.name }}{{ item.version }}"
     state: installed
     update_cache: true
-  when: app_name == "nginx"
-
-- name: "installing {{ app_name }}"
-  ansible.builtin.dnf:
-    name: "{{ app_name }}"
-    state: installed
-    update_cache: true
-  when: app_name == "mongodb-org"
+  loop: "{{ app_install }}"
 

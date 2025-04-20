@@ -1,4 +1,4 @@
 server: mongodb
 role_name: mongodb
-app_name: mongodb-org
 systemd_app_name: mongod
+app_install: mongodb-org

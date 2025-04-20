@@ -1,0 +1,5 @@
+- name: Create a /app directory if it does not exist
+  ansible.builtin.file:
+    path: { { directory_path } }
+    state: directory
+    mode: '0777'

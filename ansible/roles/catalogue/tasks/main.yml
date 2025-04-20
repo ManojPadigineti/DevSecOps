@@ -1,0 +1,47 @@
+- name: Configuring "{{ microservice_name }}"
+  ansible.builtin.debug:
+    msg: Building "{{ microservice_name }}" microservice
+
+- name: Import systemd and start
+  ansible.builtin.import_role:
+    name: dnf_modules
+    tasks_from: main.yml
+
+- name: Import create_user
+  ansible.builtin.import_role:
+    name: create_user
+    tasks_from: main.yml
+
+- name: Import create_directory and start nginx
+  ansible.builtin.import_role:
+    name: create_directory
+    tasks_from: main.yml
+
+- name:
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+    dest: "{{ directory_path }}"
+    remote_src: yes
+
+- name: NPM Install
+  ansible.builtin.shell: cd /"{{ directory_path }}" ; npm install
+
+- name: copy catalogue.service
+  ansible.builtin.template:
+    src: catalogue.service
+    dest: /etc/systemd/system/catalogue.service
+    owner: "{{ user }}"
+    mode: '0744'
+
+- name: systemd start application
+  ansible.builtin.import_role:
+    name: systemd
+    tasks_from: main.yml
+
+- name: systemd start application
+  ansible.builtin.import_role:
+    name: repo_copy
+    tasks_from: main.yml
+
+- name: NPM Install
+  ansible.builtin.shell: mongosh --host {{ mongo_ip }} </app/db/master-data.js

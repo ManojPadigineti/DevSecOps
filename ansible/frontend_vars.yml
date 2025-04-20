@@ -1,4 +1,3 @@
-app_name: nginx
 server: frontend
 role_name: frontend
 catalogue_ip: 10.128.0.57
@@ -7,3 +6,8 @@ cart_ip: 10.128.0.57
 shipping_ip: 10.128.0.57
 payment_ip: 10.128.0.57
 systemd_app_name: nginx
+app_install: nginx
+app_install_version: "-1:1.24.0-4.module_el9+1087+9adf8b0f"
+disable_version: yes
+
+#1:1.24.0-4.module_el9+1087+9adf8b0f

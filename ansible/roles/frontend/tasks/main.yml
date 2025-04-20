@@ -8,11 +8,6 @@
     path: /usr/share/nginx/html/*
     state: absent
 
-#- name: Download zip file
-#  ansible.builtin.get_url:
-#    url: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
-#    dest: /tmp/frontend.zip
-
 - name: Unarchive the file into /usr/share/nginx/html
   ansible.builtin.unarchive:
     src: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
