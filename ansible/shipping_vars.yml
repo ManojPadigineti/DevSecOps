@@ -8,7 +8,9 @@ schemas:
   - "schema"
   - "app-user"
   - "master-data"
-user: "roboshop"
+user:
+  - "roboshop"
+dir_owner: "roboshop"
 directory_path: "/app"
 cart_ip: "10.0.2.17"
 mysql_ip: "10.0.2.217"
