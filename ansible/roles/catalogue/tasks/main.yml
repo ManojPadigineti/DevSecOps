@@ -2,6 +2,11 @@
   ansible.builtin.debug:
     msg: Building "{{ microservice_name }}" microservice
 
+- name: systemd start application
+  ansible.builtin.import_role:
+    name: repo_copy
+    tasks_from: main.yml
+
 - name: Import systemd and start
   ansible.builtin.import_role:
     name: dnf_modules
@@ -36,11 +41,6 @@
 - name: systemd start application
   ansible.builtin.import_role:
     name: systemd
-    tasks_from: main.yml
-
-- name: systemd start application
-  ansible.builtin.import_role:
-    name: repo_copy
     tasks_from: main.yml
 
 - name: NPM Install
