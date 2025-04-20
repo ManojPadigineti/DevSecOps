@@ -1,6 +1,6 @@
 role_name: catalogue
 app_install:
-  - { name: "nodejs" , version: ":20" }
+  - { name: "nodejs" , version: "" }
   - { name: "mongodb-mongosh", version: "" }
 disable_enable_app: nodejs
 enable_app_version: "20"
