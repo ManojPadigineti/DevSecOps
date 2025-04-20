@@ -1,0 +1,10 @@
+role_name: user
+server: user
+app_install: "nodejs"
+disable_enable_app: "nodejs"
+enable_app_version: "20"
+user: "roboshop"
+directory_path: "/app"
+redis_ip: "10.128.0.57"
+mongo_ip: "10.128.0.57"
+systemd_app_name: "redis"
