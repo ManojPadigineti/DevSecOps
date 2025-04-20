@@ -4,7 +4,8 @@ enable_app_version: "20"
 disable_enable_app: "nodejs"
 app_install:
   - { name: "nodejs" , version: ""}
-user: "roboshop"
+user:
+  - "roboshop"
 directory_path: "/app"
 redis_ip: "10.0.2.51"
 catalogue_ip: "10.0.2.80"
