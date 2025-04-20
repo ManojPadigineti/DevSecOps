@@ -3,6 +3,7 @@ server: dispatch
 microservice_name: "dispatch"
 app_install:
   - { name: "golang", version: ""}
+rabbitmq_ip: "10.128.0.57"
 user:
   - "roboshop"
   - "roboshop123"
