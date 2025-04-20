@@ -1,5 +1,4 @@
-- name: "Install Unzip & wget
-"
+- name: "Install Unzip & wget"
   ansible.builtin.dnf:
     name:
       - unzip
