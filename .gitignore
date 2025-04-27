@@ -8,6 +8,7 @@ versions.tf
 *.tfstate.backup
 *.terraform
 *state
+*provider
 *idea
 *version
 *.versi

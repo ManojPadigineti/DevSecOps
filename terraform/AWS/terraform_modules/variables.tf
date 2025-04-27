@@ -1,0 +1,12 @@
+variable "ami_owner" {}
+variable "ami_image_name" {}
+variable "instances" {}
+variable "bucket_name" {}
+variable "vpc" {}
+variable "subnet" {}
+variable "igw_name" {}
+variable "nat_private_subnet" {}
+variable "nat_name" {}
+variable "sg_conf" {}
+variable "server_password" {}
+variable "ansible_instance" {}
