@@ -1,15 +1,10 @@
-data "aws_security_group" "sg" {
-  name = var.sg_name
-
+module "sg-rules" {
+  for_each = var.sg_rules
+  source = "./modules/security_group"
+  cidr   = each.value.cidr
+  port   = each.value.port
+  protocol = each.value.protocol
+  sg_name = each.value.sgname
+  type = each.value.type
 }
-
-resource "aws_vpc_security_group_ingress_rule" "delete_TCP" {
-  security_group_id = data.aws_security_group.sg.id
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 0
-  ip_protocol       = "tcp"
-  to_port           = 65535
-}
-
-
 

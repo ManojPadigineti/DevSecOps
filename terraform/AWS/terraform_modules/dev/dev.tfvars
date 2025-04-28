@@ -7,14 +7,57 @@ instances = {
   frontend = {
     instance_type = "t2.micro"
     ec2_subnet = "public_subnet"
+    sg_name = "roboshop-sg"
   }
   mongodb = {
     instance_type = "t2.micro"
     ec2_subnet = "private_subnet"
+    sg_name = "roboshop-sg"
   }
   catalogue = {
     instance_type = "t2.micro"
     ec2_subnet = "private_subnet"
+    sg_name = "roboshop-sg"
+  }
+  redis = {
+    instance_type = "t2.micro"
+    ec2_subnet = "private_subnet"
+    sg_name = "roboshop-sg"
+  }
+  user = {
+    instance_type = "t2.micro"
+    ec2_subnet = "private_subnet"
+    sg_name = "roboshop-sg"
+  }
+  cart = {
+    instance_type = "t2.micro"
+    ec2_subnet = "private_subnet"
+    sg_name = "roboshop-sg"
+  }
+  mysql = {
+    instance_type = "t2.micro"
+    ec2_subnet = "private_subnet"
+    sg_name = "roboshop-sg"
+  }
+  shipping = {
+    instance_type = "t2.micro"
+    ec2_subnet = "private_subnet"
+    sg_name = "roboshop-sg"
+  }
+  rabbitmq = {
+    instance_type = "t2.micro"
+    ec2_subnet = "private_subnet"
+    sg_name = "roboshop-sg"
+  }
+  payment = {
+    instance_type = "t2.micro"
+    ec2_subnet = "private_subnet"
+    sg_name = "roboshop-sg"
+  }
+  dispatch = {
+    instance_type = "t2.micro"
+    ec2_subnet = "private_subnet"
+    sg_name = "roboshop-sg"
   }
 }
 
@@ -23,6 +66,7 @@ ansible_instance = {
   ansible = {
     instance_type = "t2.micro"
     ec2_subnet = "public_subnet"
+    sg_name = "roboshop-sg"
   }
 }
 
@@ -50,15 +94,37 @@ nat_private_subnet = "public_subnet"
 
 
 #security_group_configuration
-sg_conf = {
-  ssh = {
-    sg_name = "roboshop-sg"
+sg_group_configure = {
+  robo-sg = {
     project_name = "roboshop"
-    ipv4_cidr = "106.212.230.8/32"
-    from_port = "22"
-    protocol = "TCP"
-    to_port = "22"
   }
 }
 
+#Security_group_rules
+sg_rules = {
+  http = {
+    port = 80
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  },
+  ssh = {
+    port = 22
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["122.174.98.221/32"]
+  }
+  sonar = {
+    port = 9000
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
+  jenkins = {
+    port = 8080
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
+}
 
