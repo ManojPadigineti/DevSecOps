@@ -129,7 +129,7 @@ module "Ansible_provisioner" {
   source = "./modules/ansible_provisioner"
   password = var.server_password
   server_ip = module.ansible_ec2[each.key].public_ip
-  microservice = var.microservice
+  microservice = "var.microservice"
 }
 
 module "route53_record" {
