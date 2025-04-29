@@ -114,7 +114,7 @@ sg_rules = {
     port = 22
     protocol = "TCP"
     type = "ingress"
-    cidr = ["122.174.98.221/32"]
+    cidr = ["0.0.0.0/0"]
   }
   sonar = {
     port = 9000
