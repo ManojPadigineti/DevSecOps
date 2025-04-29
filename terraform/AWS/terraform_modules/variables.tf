@@ -1,14 +1,27 @@
-variable "ami_owner" {}
-variable "ami_image_name" {}
-variable "instances" {}
-variable "bucket_name" {}
-variable "vpc" {}
-variable "subnet" {}
-variable "igw_name" {}
-variable "nat_private_subnet" {}
-variable "nat_name" {}
-variable "server_password" {}
-variable "ansible_instance" {}
+variable "ami_owner" {
+  type = string
+}
+variable "ami_image_name" {
+  type = string
+}
+variable "bucket_name" {
+  type = string
+}
+variable "igw_name" {
+  type = string
+}
+variable "nat_private_subnet" {
+  type = string
+}
+variable "nat_name" {
+  type = string
+}
+variable "server_password" {
+  default = "DevOps321"
+}
+# variable "ansible_instance" {}
+
+
 variable "sg_group_configure" {
   type = map(object({
     project_name = string
@@ -22,6 +35,42 @@ variable "sg_rules" {
     cidr = list(string)
   }))
 }
+
 variable "microservice" {
   type = list(string)
+}
+
+variable "db_instances" {
+  type = map(object({
+    instance_type = string
+    ec2_subnet = string
+  }))
+}
+
+
+variable "backend_instances" {
+  type = map(object({
+    instance_type = string
+    ec2_subnet = string
+  }))
+}
+
+
+variable "frontend_instances" {
+  type = map(object({
+    instance_type = string
+    ec2_subnet = string
+  }))
+}
+
+variable "vpc" {
+  type = map(object({
+    cidr = string
+  }))
+}
+
+variable "subnet" {
+  type = map(object({
+    subnet_cidr = string
+  }))
 }
