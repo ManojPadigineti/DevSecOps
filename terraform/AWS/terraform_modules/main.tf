@@ -57,12 +57,6 @@ module "eip_associate" {
   instance_id = module.ec2[each.key].ec2_id
 }
 
-module "verify_public_ip" {
-  depends_on = [module.ec2]
-  source = "./modules/null_resource"
-  public_ip = module.ec2["frontend"].public_ip
-}
-
 module "s3" {
   source = "./modules/s3"
   bucket_name = var.bucket_name
@@ -107,8 +101,6 @@ module "route_table" {
   private_subnet = module.subnet["private_subnet"].subnet_id
 }
 
-
-
 module "eip_ansible" {
   depends_on = [module.ansible_ec2]
   for_each = { for k, v in var.ansible_instance : k => v if v.ec2_subnet == "public_subnet" }
@@ -125,17 +117,23 @@ module "eip_associate_ansible" {
   instance_id = module.ansible_ec2[each.key].ec2_id
 }
 
-# server_password - Should pass as runtime variable
-module "provisioner" {
-  depends_on = [module.eip_ansible, module.eip_associate_ansible, module.verify_public_ip]
-  for_each = { for k, v in var.ansible_instance : k => v if k == "ansible"}
+module "sleep_provisioner" {
+  depends_on = [module.eip_ansible, module.eip_associate_ansible]
   source = "./modules/provisioner"
+}
+
+## server_password - Should pass as runtime variable
+module "Ansible_provisioner" {
+  depends_on = [module.eip_ansible, module.eip_associate_ansible, module.sleep_provisioner, module.route53_record]
+  for_each = { for k, v in var.ansible_instance : k => v if k == "ansible"}
+  source = "./modules/ansible_provisioner"
   password = var.server_password
   server_ip = module.ansible_ec2[each.key].public_ip
+  microservice = var.microservice
 }
 
 module "route53_record" {
-  depends_on = [module.ec2, module.eip, module.provisioner, module.eip_associate, module.verify_public_ip]
+  depends_on = [module.ec2, module.eip, module.sleep_provisioner, module.eip_associate]
   for_each = var.instances
   source = "./modules/route53"
   hosted_zone_name = "manojpadigineti.cloud"

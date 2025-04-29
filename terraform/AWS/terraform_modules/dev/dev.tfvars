@@ -2,6 +2,8 @@ ami_image_name = "RHEL-9-DevOps-Practice"
 ami_owner = "973714476881"
 bucket_name = "manojtf99"
 
+microservice = ["frontend", "mongodb", "catalogue", "redis", "user", "cart", "mysql", "shipping", "rabbitmq", "payment", "dispatch"]
+
 # Instance
 instances = {
   frontend = {
@@ -107,7 +109,7 @@ sg_rules = {
     protocol = "TCP"
     type = "ingress"
     cidr = ["0.0.0.0/0"]
-  },
+  }
   ssh = {
     port = 22
     protocol = "TCP"
@@ -124,6 +126,12 @@ sg_rules = {
     port = 8080
     protocol = "TCP"
     type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
+  egress = {
+    port = 0
+    protocol = "-1"
+    type = "egress"
     cidr = ["0.0.0.0/0"]
   }
 }

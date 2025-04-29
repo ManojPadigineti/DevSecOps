@@ -22,3 +22,6 @@ variable "sg_rules" {
     cidr = list(string)
   }))
 }
+variable "microservice" {
+  type = list(string)
+}

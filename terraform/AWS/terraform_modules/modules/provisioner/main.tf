@@ -1,15 +1,6 @@
-resource "null_resource" "ansible_provisioner" {
-
-  connection {
-    type     = "ssh"
-    user     = "ec2-user"
-    password = var.password
-    host     = var.server_ip
+resource "null_resource" "local_exec_provisioner" {
+  provisioner "local-exec" {
+    command = "sleep 200"
+    interpreter = ["/bin/bash", "-c"]
   }
-    provisioner "remote-exec" {
-      inline = [
-        "sudo cd /home/ec2-user/", "echo provisioner >> /tmp/prov.txt"
-      ]
-    }
 }
-
