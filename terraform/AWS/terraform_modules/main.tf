@@ -161,10 +161,10 @@ module "frontend_instances" {
 
 module "frontend_eip" {
   depends_on = [module.frontend_instances]
-  for_each = { for k, v in var.frontend_instances : k => v if v.ec2_subnet == "public_subnet" }
+  for_each = var.frontend_instances #{ for k, v in var.frontend_instances : k => v if v.ec2_subnet == "public_subnet" }
   source = "./modules/eip"
   instance = each.key
-  eip_instances = module.frontend_instances["frontend"].ec2_id
+  eip_instances = module.frontend_instances[each.key].ec2_id
 }
 
 module "backend_eip" {
