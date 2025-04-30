@@ -131,6 +131,30 @@ sg_rules = {
     type = "ingress"
     cidr = ["0.0.0.0/0"]
   }
+  mongodb = {
+    port = 27017
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
+  redis = {
+    port = 6379
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
+  mysql = {
+    port = 3306
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
+  rabbitmq = {
+    port = 5672
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
   egress = {
     port = 0
     protocol = "-1"
