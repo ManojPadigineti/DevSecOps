@@ -249,7 +249,7 @@ module "route53_record" {
 
 #Server Password required in runtime
 module "Ansible_provisioner" {
-  depends_on = [module.backend_instances, module.backend_eip_associate, module.backend_route53_record, module.security_group_rule]
+  depends_on = [module.backend_instances, module.backend_eip_associate, module.backend_route53_record, module.security_group_rule, module.frontend_route53_record]
   for_each = { for k, v in var.backend_instances : k => v if k == "ansible"}
   source = "./modules/ansible_provisioner"
   password = var.server_password
@@ -269,28 +269,29 @@ module "Frontend_sleep_provisioner" {
 #   Playbook_Provisioner  #
 #-------------------------#
 
-module "playbook_provisioner" {
-  depends_on = [module.route53_record, module.Ansible_provisioner]
+module "db_playbook_provisioner" {
+  depends_on = [module.route53_record, module.Ansible_provisioner, module.frontend_route53_record]
+  for_each = var.db_instances
   source = "./modules/ansible_execute"
   password  = var.server_password
   server_ip = module.backend_instances["ansible"].public_ip
-  # instances = each.key
+  instances = each.key
 }
 
-# module "backend_playbook_provisioner" {
-#   for_each = var.backend_instances
-#   depends_on = [module.db_playbook_provisioner, module.route53_record, module.Ansible_provisioner]
-#   source = "./modules/ansible_execute"
-#   password  = var.server_password
-#   server_ip = module.backend_instances["ansible"].public_ip
-#   # instances = each.key
-# }
-#
-# module "frontend_playbook_provisioner" {
-#   for_each = var.frontend_instances
-#   depends_on = [module.backend_playbook_provisioner, module.route53_record, module.Ansible_provisioner]
-#   source = "./modules/ansible_execute"
-#   password  = var.server_password
-#   server_ip = module.backend_instances["ansible"].public_ip
-#   # instances = each.key
-# }
+module "backend_playbook_provisioner" {
+  for_each = var.backend_instances
+  depends_on = [module.db_playbook_provisioner, module.route53_record, module.Ansible_provisioner, module.db_playbook_provisioner]
+  source = "./modules/ansible_execute"
+  password  = var.server_password
+  server_ip = module.backend_instances["ansible"].public_ip
+  instances = each.key
+}
+
+module "frontend_playbook_provisioner" {
+  for_each = var.frontend_instances
+  depends_on = [module.backend_playbook_provisioner, module.route53_record, module.Ansible_provisioner, module.backend_playbook_provisioner]
+  source = "./modules/ansible_execute"
+  password  = var.server_password
+  server_ip = module.backend_instances["ansible"].public_ip
+  instances = each.key["frontend"]
+}
