@@ -279,7 +279,7 @@ module "db_playbook_provisioner" {
 }
 
 module "backend_playbook_provisioner" {
-  for_each = var.backend_instances
+  for_each = { for k, v in var.backend_instances : k => v if k != "ansible" }
   depends_on = [module.db_playbook_provisioner, module.route53_record, module.Ansible_provisioner, module.db_playbook_provisioner]
   source = "./modules/ansible_execute"
   password  = var.server_password
@@ -287,11 +287,12 @@ module "backend_playbook_provisioner" {
   instances = each.key
 }
 
+#{ for k, v in var.db_instances : k => v if k != "ansible" && k != "frontend" } - Example for two conditions
 module "frontend_playbook_provisioner" {
-  for_each = var.frontend_instances
+  for_each = { for k, v in var.frontend_instances : k => v if k != "hashicorp-vault " }
   depends_on = [module.backend_playbook_provisioner, module.route53_record, module.Ansible_provisioner, module.backend_playbook_provisioner]
   source = "./modules/ansible_execute"
   password  = var.server_password
   server_ip = module.backend_instances["ansible"].public_ip
-  instances = each.key["frontend"]
+  instances = each.key
 }
