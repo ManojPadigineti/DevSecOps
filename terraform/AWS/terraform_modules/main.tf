@@ -254,7 +254,6 @@ module "Ansible_provisioner" {
   source = "./modules/ansible_provisioner"
   password = var.server_password
   server_ip = module.backend_instances["ansible"].public_ip
-  instances = each.key  # remove it later
 }
 
 #----------------------#
@@ -276,7 +275,7 @@ module "dbs_playbook_provisioner" {
   source = "./modules/ansible_execute"
   password  = var.server_password
   server_ip = module.backend_instances["ansible"].public_ip
-  instances = each.key
+  instances = var.microservice
 }
 
 module "backend_playbook_provisioner" {
@@ -285,7 +284,7 @@ module "backend_playbook_provisioner" {
   source = "./modules/ansible_execute"
   password  = var.server_password
   server_ip = module.backend_instances["ansible"].public_ip
-  instances = each.key
+  instances = var.microservice
 }
 
 #{ for k, v in var.db_instances : k => v if k != "ansible" && k != "frontend" } - Example for two conditions
@@ -295,5 +294,5 @@ module "frontend_playbook_provisioner" {
   source = "./modules/ansible_execute"
   password  = var.server_password
   server_ip = module.backend_instances["ansible"].public_ip
-  instances = each.key
+  instances = var.microservice
 }
