@@ -10,7 +10,7 @@ resource "null_resource" "ansible_playbook" {
     inline = [
       "sudo -i",
       "cd /home/ec2-user/DevSecOps_Project/ansible_terraform",
-      "ansible-playbook -i inv.txt playbook.yml -e var_file=${var.instances}"
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inv.txt playbook.yml -e var_file=${var.instances}"
     ]
   }
 }
