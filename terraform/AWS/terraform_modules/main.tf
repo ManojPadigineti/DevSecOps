@@ -131,7 +131,7 @@ module "db_instances" {
 }
 
 module "backend_instances" {
-  depends_on = [module.vpc, module.subnet, module.nat, module.security_group, module.db_instances]
+  depends_on = [module.vpc, module.subnet, module.nat, module.security_group, module.db_instances, module.frontend_instances]
   for_each = var.backend_instances
   source = "./modules/ec2"
   ami_image_name = var.ami_image_name
@@ -144,8 +144,8 @@ module "backend_instances" {
 
 
 module "frontend_instances" {
-  depends_on = [module.vpc, module.subnet, module.nat, module.security_group, module.db_instances, module.backend_instances]
-  for_each = var.backend_instances
+  depends_on = [module.vpc, module.subnet, module.nat, module.security_group, module.db_instances]
+  for_each = var.frontend_instances
   source = "./modules/ec2"
   ami_image_name = var.ami_image_name
   ami_owner = var.ami_owner
@@ -161,7 +161,7 @@ module "frontend_instances" {
 
 module "frontend_eip" {
   depends_on = [module.frontend_instances]
-  for_each = var.frontend_instances #{ for k, v in var.frontend_instances : k => v if v.ec2_subnet == "public_subnet" }
+  for_each = { for k, v in var.frontend_instances : k => v if v.ec2_subnet == "public_subnet" }
   source = "./modules/eip"
   instance = each.key
   eip_instances = module.frontend_instances[each.key].ec2_id
@@ -249,7 +249,7 @@ module "route53_record" {
 
 #Server Password required in runtime
 module "Ansible_provisioner" {
-  depends_on = [module.backend_instances, module.backend_eip_associate, module.Backend_sleep_provisioner, module.backend_route53_record]
+  depends_on = [module.backend_instances, module.backend_eip_associate, module.Backend_sleep_provisioner, module.backend_route53_record, module.security_group_rule]
   for_each = { for k, v in var.backend_instances : k => v if k == "ansible"}
   source = "./modules/ansible_provisioner"
   password = var.server_password

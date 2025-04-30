@@ -61,6 +61,10 @@ frontend_instances = {
     instance_type = "t2.micro"
     ec2_subnet = "public_subnet"
   }
+  hashicorp-vault = {
+    instance_type = "t2.micro"
+    ec2_subnet = "public_subnet"
+  }
 }
 
 # Ansible Instance
@@ -92,7 +96,6 @@ igw_name = "roboshop_igw"
 
 #NAT
 nat_name = "roboshop-nat"
-nat_private_subnet = "public_subnet"
 
 
 #security_group_configuration

@@ -10,9 +10,7 @@ variable "bucket_name" {
 variable "igw_name" {
   type = string
 }
-variable "nat_private_subnet" {
-  type = string
-}
+
 variable "nat_name" {
   type = string
 }
