@@ -269,7 +269,7 @@ module "Frontend_sleep_provisioner" {
 #   Playbook_Provisioner  #
 #-------------------------#
 
-module "db_playbook_provisioner" {
+module "playbook_provisioner" {
   depends_on = [module.route53_record, module.Ansible_provisioner]
   for_each = var.db_instances
   source = "./modules/ansible_execute"
