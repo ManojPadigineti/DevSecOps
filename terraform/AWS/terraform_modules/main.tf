@@ -217,16 +217,16 @@ module "db_eip_associate" {
 #-------------------#
 
 module "frontend_route53_record" {
-  depends_on = [module.frontend_instances, module.frontend_eip, module.db_sleep_provisioner, module.frontend_eip_associate]
+  depends_on = [module.frontend_instances, module.frontend_eip, module.frontend_eip_associate, module.Frontend_sleep_provisioner]
   for_each = var.frontend_instances
   source = "./modules/route53"
   hosted_zone_name = "manojpadigineti.cloud"
   instance  = each.key
-  record_ip = each.key == "frontend" ? module.frontend_instances[each.key].public_ip : module.frontend_instances[each.key].private_ip
+  record_ip = module.frontend_instances[each.key].public_ip
 }
 
 module "backend_route53_record" {
-  depends_on = [module.backend_instances, module.backend_eip, module.db_sleep_provisioner, module.backend_eip_associate]
+  depends_on = [module.backend_instances, module.backend_eip, module.backend_eip_associate]
   for_each = var.backend_instances
   source = "./modules/route53"
   hosted_zone_name = "manojpadigineti.cloud"
@@ -235,12 +235,12 @@ module "backend_route53_record" {
 }
 
 module "route53_record" {
-  depends_on = [module.db_instances, module.db_eip, module.db_sleep_provisioner, module.db_eip_associate]
+  depends_on = [module.db_instances, module.db_eip, module.db_eip_associate]
   for_each = var.db_instances
   source = "./modules/route53"
   hosted_zone_name = "manojpadigineti.cloud"
   instance  = each.key
-  record_ip = each.key == "frontend" ? module.db_instances[each.key].public_ip : module.db_instances[each.key].private_ip
+  record_ip = module.db_instances[each.key].private_ip
 }
 
 #-----------------------#
@@ -249,26 +249,16 @@ module "route53_record" {
 
 #Server Password required in runtime
 module "Ansible_provisioner" {
-  depends_on = [module.backend_instances, module.backend_eip_associate, module.Backend_sleep_provisioner, module.backend_route53_record, module.security_group_rule]
+  depends_on = [module.backend_instances, module.backend_eip_associate, module.backend_route53_record, module.security_group_rule]
   for_each = { for k, v in var.backend_instances : k => v if k == "ansible"}
   source = "./modules/ansible_provisioner"
   password = var.server_password
-  server_ip = module.backend_instances[each.key].public_ip
+  server_ip = module.backend_instances["ansible"].public_ip
 }
 
 #----------------------#
 #   Sleep_Provisioner  #
 #----------------------#
-
-module "db_sleep_provisioner" {
-  depends_on = [module.db_eip, module.db_eip_associate, module.Backend_sleep_provisioner]
-  source = "./modules/provisioner"
-}
-
-module "Backend_sleep_provisioner" {
-  depends_on = [module.backend_eip, module.backend_eip_associate, module.Frontend_sleep_provisioner]
-  source = "./modules/provisioner"
-}
 
 module "Frontend_sleep_provisioner" {
   depends_on = [module.frontend_eip, module.frontend_eip_associate, module.frontend_instances]
@@ -280,7 +270,7 @@ module "Frontend_sleep_provisioner" {
 #-------------------------#
 
 module "db_playbook_provisioner" {
-  depends_on = [module.route53_record]
+  depends_on = [module.route53_record, module.Ansible_provisioner]
   for_each = var.db_instances
   source = "./modules/ansible_execute"
   password  = var.server_password
@@ -290,7 +280,7 @@ module "db_playbook_provisioner" {
 
 module "backend_playbook_provisioner" {
   for_each = var.backend_instances
-  depends_on = [module.db_playbook_provisioner, module.route53_record]
+  depends_on = [module.db_playbook_provisioner, module.route53_record, module.Ansible_provisioner]
   source = "./modules/ansible_execute"
   password  = var.server_password
   server_ip = module.backend_instances["ansible"].private_ip
@@ -299,7 +289,7 @@ module "backend_playbook_provisioner" {
 
 module "frontend_playbook_provisioner" {
   for_each = var.frontend_instances
-  depends_on = [module.backend_playbook_provisioner, module.route53_record]
+  depends_on = [module.backend_playbook_provisioner, module.route53_record, module.Ansible_provisioner]
   source = "./modules/ansible_execute"
   password  = var.server_password
   server_ip = module.backend_instances["ansible"].private_ip
