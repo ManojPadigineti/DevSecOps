@@ -235,7 +235,7 @@ module "backend_route53_record" {
 }
 
 module "route53_record" {
-  depends_on = [module.db_instances, module.db_eip, module.db_eip_associate]
+  depends_on = [module.db_instances, module.db_eip, module.db_eip_associate, module.Frontend_sleep_provisioner]
   for_each = var.db_instances
   source = "./modules/route53"
   hosted_zone_name = "manojpadigineti.cloud"
