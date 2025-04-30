@@ -217,7 +217,7 @@ module "db_eip_associate" {
 #-------------------#
 
 module "frontend_route53_record" {
-  depends_on = [module.frontend_instances, module.frontend_eip, module.frontend_eip_associate, module.Frontend_sleep_provisioner]
+  depends_on = [module.frontend_instances, module.frontend_eip, module.frontend_eip_associate, module.Frontend_sleep_provisioner, module.backend_route53_record, module.route53_record]
   for_each = var.frontend_instances
   source = "./modules/route53"
   hosted_zone_name = "manojpadigineti.cloud"
@@ -235,7 +235,7 @@ module "backend_route53_record" {
 }
 
 module "route53_record" {
-  depends_on = [module.db_instances, module.db_eip, module.db_eip_associate, module.Frontend_sleep_provisioner]
+  depends_on = [module.db_instances, module.db_eip, module.db_eip_associate]
   for_each = var.db_instances
   source = "./modules/route53"
   hosted_zone_name = "manojpadigineti.cloud"
