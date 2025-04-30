@@ -271,7 +271,6 @@ module "Frontend_sleep_provisioner" {
 
 module "playbook_provisioner" {
   depends_on = [module.route53_record, module.Ansible_provisioner]
-  for_each = var.db_instances
   source = "./modules/ansible_execute"
   password  = var.server_password
   server_ip = module.backend_instances["ansible"].public_ip
