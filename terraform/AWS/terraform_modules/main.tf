@@ -274,7 +274,7 @@ module "db_playbook_provisioner" {
   for_each = var.db_instances
   source = "./modules/ansible_execute"
   password  = var.server_password
-  server_ip = module.backend_instances["ansible"].private_ip
+  server_ip = module.backend_instances["ansible"].public_ip
   instances = each.key
 }
 
@@ -283,7 +283,7 @@ module "backend_playbook_provisioner" {
   depends_on = [module.db_playbook_provisioner, module.route53_record, module.Ansible_provisioner]
   source = "./modules/ansible_execute"
   password  = var.server_password
-  server_ip = module.backend_instances["ansible"].private_ip
+  server_ip = module.backend_instances["ansible"].public_ip
   instances = each.key
 }
 
@@ -292,6 +292,6 @@ module "frontend_playbook_provisioner" {
   depends_on = [module.backend_playbook_provisioner, module.route53_record, module.Ansible_provisioner]
   source = "./modules/ansible_execute"
   password  = var.server_password
-  server_ip = module.backend_instances["ansible"].private_ip
+  server_ip = module.backend_instances["ansible"].public_ip
   instances = each.key
 }
