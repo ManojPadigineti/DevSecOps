@@ -12,3 +12,6 @@ data "aws_security_group" "security_group" {
   id = var.security_group_id
 }
 
+data "aws_subnet" "private_subnet" {
+  id = var.private_subnet_id
+}
