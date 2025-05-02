@@ -68,7 +68,7 @@ module "nat" {
   source = "../modules/nat"
   nat_eip_name   = each.value.nat_eip_name
   nat_name      =  each.key
-  private_subnet_nat = module.subnets["private-subnet"].subnet_id
+  private_subnet_nat = module.subnets["public-subnet"].subnet_id
 }
 
 #=========================#
