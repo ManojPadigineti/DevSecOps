@@ -15,7 +15,7 @@ module "eip" {
   instance_id = module.terraform_ec2[each.key].ec2_instance_output_id
 }
 
-module "terraform_ec2" {
+module "ansible_ec2" {
   for_each = var.private_instance
   source = "../modules/ec2"
   ami    = data.aws_ami.ami_ec2.id
