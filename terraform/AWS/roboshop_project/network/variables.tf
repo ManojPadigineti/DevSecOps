@@ -3,3 +3,9 @@ variable "vpc" {
     cidr = string
   }))
 }
+
+variable "igw" {
+  type = map(object({
+    name = string
+  }))
+}
