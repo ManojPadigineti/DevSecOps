@@ -2,7 +2,7 @@ ami_image_name = "RHEL-9-DevOps-Practice"
 ami_owner = "973714476881"
 bucket_name = "manojtf99"
 
-microservice = ["frontend", "mongodb", "catalogue", "redis", "user", "cart", "mysql", "shipping", "rabbitmq", "payment", "dispatch"]
+# microservice = ["frontend", "mongodb", "catalogue", "redis", "user", "cart", "mysql", "shipping", "rabbitmq", "payment", "dispatch"]
 
 #DB_Instances
 db_instances = {
@@ -67,14 +67,13 @@ frontend_instances = {
   }
 }
 
-# Ansible Instance
-# ansible_instance = {
-#   ansible = {
-#     instance_type = "t2.micro"
-#     ec2_subnet = "public_subnet"
-#     sg_name = "roboshop-sg"
-#   }
-# }
+ansible_instance = {
+  ansible = {
+    instance_type = "t2.micro"
+    ec2_subnet = "public_subnet"
+  }
+}
+
 
 vpc = {
   roboshop_vpc = {

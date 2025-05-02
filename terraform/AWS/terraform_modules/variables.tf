@@ -17,8 +17,6 @@ variable "nat_name" {
 variable "server_password" {
   default = "DevOps321"
 }
-# variable "ansible_instance" {}
-
 
 variable "sg_group_configure" {
   type = map(object({
@@ -55,6 +53,13 @@ variable "backend_instances" {
 
 
 variable "frontend_instances" {
+  type = map(object({
+    instance_type = string
+    ec2_subnet = string
+  }))
+}
+
+variable "ansible_instance" {
   type = map(object({
     instance_type = string
     ec2_subnet = string

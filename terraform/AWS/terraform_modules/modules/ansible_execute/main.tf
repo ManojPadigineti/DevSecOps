@@ -8,7 +8,8 @@ resource "null_resource" "ansible_playbook" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo -i ; cd /home/ec2-user/DevSecOps_Project/ansible_terraform; bash ansible_run.sh ${join(" ", var.instances)}"
+      # "cd /home/ec2-user/DevSecOps_Project/ansible_terraform; bash ansible_run.sh ${join(" ", var.instances)}"
+      "ansible-pull -i localhost -u https://github.com/ManojPadigineti/ansible_playbook.git  playbook.yml -e var_file=${var.instances}"
     ]
   }
-  }
+}

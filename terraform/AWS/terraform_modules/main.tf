@@ -1,31 +1,3 @@
-# module "ansible_ec2" {
-#   depends_on = [module.vpc, module.subnet, module.nat, module.security_group]
-#   for_each = var.ansible_instance
-#   source = "./modules/ec2"
-#   ami_image_name = var.ami_image_name
-#   ami_owner = var.ami_owner
-#   instance_type = each.value.instance_type
-#   microservice_name = each.key
-#   ec2_subnet = module.subnet[each.value.ec2_subnet].subnet_id
-#   security_group = module.security_group.robo-sg.sg_id
-# }
-
-# module "eip_ansible" {
-#   depends_on = [module.ansible_ec2]
-#   for_each = { for k, v in var.ansible_instance : k => v if v.ec2_subnet == "public_subnet" }
-#   source = "./modules/eip"
-#   instance = each.key
-#   eip_instances = module.ansible_ec2[each.key].ec2_id
-# }
-
-# module "eip_associate_ansible" {
-#   depends_on = [module.eip_ansible]
-#   for_each = { for k, v in var.ansible_instance : k => v if v.ec2_subnet == "public_subnet" }
-#   source = "./modules/eip_associate"
-#   eip_allocate_id = module.eip_ansible[each.key].eip_id
-#   instance_id = module.ansible_ec2[each.key].ec2_id
-# }
-
 #-----------------------------#
 #  Network [ VPC , SUBNET ]   #
 #-----------------------------#
@@ -155,6 +127,18 @@ module "frontend_instances" {
   security_group = module.security_group["robo-sg"].sg_id
 }
 
+# module "ansible_instance" {
+#   depends_on = [module.vpc, module.subnet, module.nat, module.security_group]
+#   for_each = var.ansible_instance
+#   source = "./modules/ec2"
+#   ami_image_name = var.ami_image_name
+#   ami_owner = var.ami_owner
+#   instance_type = each.value.instance_type
+#   microservice_name = each.key
+#   ec2_subnet = module.subnet[each.value.ec2_subnet].subnet_id
+#   security_group = module.security_group["robo-sg"].sg_id
+# }
+
 #----------------#
 #      EIP       #
 #----------------#
@@ -182,6 +166,14 @@ module "db_eip" {
   instance = each.key
   eip_instances = module.db_instances[each.key].ec2_id
 }
+
+# module "ansible_eip" {
+#   depends_on = [module.ansible_instance]
+#   for_each = var.ansible_instance
+#   source = "./modules/eip"
+#   instance = each.key
+#   eip_instances = module.ansible_instance[each.key].ec2_id
+# }
 
 
 #--------------------#
@@ -212,12 +204,20 @@ module "db_eip_associate" {
   instance_id = module.db_instances[each.key].ec2_id
 }
 
+# module "ansible_eip_associate" {
+#   depends_on = [module.ansible_eip]
+#   for_each = { for k, v in var.ansible_instance : k => v if v.ec2_subnet == "public_subnet" }
+#   source = "./modules/eip_associate"
+#   eip_allocate_id = module.ansible_eip[each.key].eip_id
+#   instance_id = module.ansible_instance[each.key].ec2_id
+# }
+
 #-------------------#
 #  Route_53_Record  #
 #-------------------#
 
 module "frontend_route53_record" {
-  depends_on = [module.frontend_instances, module.frontend_eip, module.frontend_eip_associate, module.Frontend_sleep_provisioner, module.backend_route53_record, module.route53_record]
+  depends_on = [module.frontend_instances, module.frontend_eip, module.frontend_eip_associate, module.Frontend_sleep_provisioner, module.backend_route53_record, module.db_route53_record]
   for_each = var.frontend_instances
   source = "./modules/route53"
   hosted_zone_name = "manojpadigineti.cloud"
@@ -234,7 +234,7 @@ module "backend_route53_record" {
   record_ip = each.key == "frontend" ? module.backend_instances[each.key].public_ip : module.backend_instances[each.key].private_ip
 }
 
-module "route53_record" {
+module "db_route53_record" {
   depends_on = [module.db_instances, module.db_eip, module.db_eip_associate]
   for_each = var.db_instances
   source = "./modules/route53"
@@ -248,12 +248,28 @@ module "route53_record" {
 #-----------------------#
 
 #Server Password required in runtime
-module "Ansible_provisioner" {
-  depends_on = [module.backend_instances, module.backend_eip_associate, module.backend_route53_record, module.security_group_rule, module.frontend_route53_record]
-  for_each = { for k, v in var.backend_instances : k => v if k == "ansible"}
+module "db_Ansible_provisioner" {
+  depends_on = [module.db_instances, module.db_eip_associate, module.db_route53_record, module.security_group_rule]
+  for_each = var.db_instances
   source = "./modules/ansible_provisioner"
   password = var.server_password
-  server_ip = module.backend_instances["ansible"].public_ip
+  server_ip = module.db_instances[each.key].private_ip
+}
+
+module "backend_Ansible_provisioner" {
+  depends_on = [module.backend_instances, module.backend_eip_associate, module.backend_route53_record, module.security_group_rule]
+  for_each = var.backend_instances
+  source = "./modules/ansible_provisioner"
+  password = var.server_password
+  server_ip = module.backend_instances[each.key].private_ip
+}
+
+module "frontend_Ansible_provisioner" {
+  depends_on = [module.frontend_instances, module.frontend_eip_associate, module.frontend_route53_record, module.security_group_rule]
+  for_each = var.frontend_instances
+  source = "./modules/ansible_provisioner"
+  password = var.server_password
+  server_ip = module.frontend_instances[each.key].public_ip
 }
 
 #----------------------#
@@ -270,29 +286,29 @@ module "Frontend_sleep_provisioner" {
 #-------------------------#
 
 module "dbs_playbook_provisioner" {
-  depends_on = [module.route53_record, module.Ansible_provisioner, module.frontend_route53_record]
-  # for_each = var.db_instances
+  depends_on = [module.db_route53_record, module.db_Ansible_provisioner, module.frontend_route53_record]
+  for_each = var.db_instances
   source = "./modules/ansible_execute"
   password  = var.server_password
-  server_ip = module.backend_instances["ansible"].public_ip
-  instances = var.microservice
+  server_ip = module.db_instances[each.key].private_ip
+  instances = each.key
 }
 
-# module "backend_playbook_provisioner" {
-#   for_each = { for k, v in var.backend_instances : k => v if k != "ansible" }
-#   depends_on = [module.dbs_playbook_provisioner, module.route53_record, module.Ansible_provisioner]
-#   source = "./modules/ansible_execute"
-#   password  = var.server_password
-#   server_ip = module.backend_instances["ansible"].public_ip
-#   instances = var.microservice
-# }
-#
-# #{ for k, v in var.db_instances : k => v if k != "ansible" && k != "frontend" } - Example for two conditions
-# module "frontend_playbook_provisioner" {
-#   for_each = { for k, v in var.frontend_instances : k => v if k != "hashicorp-vault " }
-#   depends_on = [module.backend_playbook_provisioner, module.route53_record, module.Ansible_provisioner, module.backend_playbook_provisioner]
-#   source = "./modules/ansible_execute"
-#   password  = var.server_password
-#   server_ip = module.backend_instances["ansible"].public_ip
-#   instances = var.microservice
-# }
+module "backend_playbook_provisioner" {
+  for_each = { for k, v in var.backend_instances : k => v if k != "ansible" }
+  depends_on = [module.dbs_playbook_provisioner, module.db_route53_record, module.backend_Ansible_provisioner]
+  source = "./modules/ansible_execute"
+  password  = var.server_password
+  server_ip = module.backend_instances[each.key].private_ip
+  instances = each.key
+}
+
+#{ for k, v in var.db_instances : k => v if k != "ansible" && k != "frontend" } - Example for two conditions
+module "frontend_playbook_provisioner" {
+  for_each = { for k, v in var.frontend_instances : k => v if k != "hashicorp-vault " }
+  depends_on = [module.backend_playbook_provisioner, module.db_route53_record, module.frontend_Ansible_provisioner, module.backend_playbook_provisioner]
+  source = "./modules/ansible_execute"
+  password  = var.server_password
+  server_ip = module.frontend_instances[each.key].private_ip
+  instances = each.key
+}
