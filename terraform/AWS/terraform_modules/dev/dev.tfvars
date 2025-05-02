@@ -1,6 +1,6 @@
 ami_image_name = "RHEL-9-DevOps-Practice"
 ami_owner = "973714476881"
-bucket_name = "manojtf99"
+# bucket_name = "manojtf99"
 
 # microservice = ["frontend", "mongodb", "catalogue", "redis", "user", "cart", "mysql", "shipping", "rabbitmq", "payment", "dispatch"]
 

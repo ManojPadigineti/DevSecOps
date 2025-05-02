@@ -80,10 +80,10 @@ module "security_group_rule" {
 #    S3_Bucket   #
 #----------------#
 
-module "s3" {
-  source = "./modules/s3"
-  bucket_name = var.bucket_name
-}
+# module "s3" {
+#   source = "./modules/s3"
+#   bucket_name = var.bucket_name
+# }
 
 
 #---------------#

@@ -4,9 +4,10 @@ variable "ami_owner" {
 variable "ami_image_name" {
   type = string
 }
-variable "bucket_name" {
-  type = string
-}
+# variable "bucket_name" {
+#   type = string
+# }
+
 variable "igw_name" {
   type = string
 }
@@ -23,6 +24,7 @@ variable "sg_group_configure" {
     project_name = string
   }))
 }
+
 variable "sg_rules" {
   type = map(object({
     port = number
