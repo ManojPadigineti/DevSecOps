@@ -7,10 +7,10 @@ vpc = {
 # Subnets
 subnets = {
   public-subnet = {
-    cidr = "14.0.1.0/16"
+    cidr = "14.0.1.0/24"
   }
   private-subnet = {
-    cidr = "14.0.2.0/16"
+    cidr = "14.0.2.0/24"
   }
 }
 
@@ -36,7 +36,7 @@ nat_gateway = {
 #security_group
 security_group = {
   security_group-roboshop = {
-    sg_name = "roboshop_security_group"
+    sg_name = "security_group-roboshop"
   }
 }
 
