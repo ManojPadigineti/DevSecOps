@@ -19,7 +19,7 @@ module "ansible_ec2" {
   for_each = var.private_instance
   source = "../modules/ec2"
   ami    = data.aws_ami.ami_ec2.id
-  ec2_subnet = data.aws_subnet.private_subnet
+  ec2_subnet = data.aws_subnet.private_subnet.id
   instance_name = each.key
   instance_type = each.value.instance_type
   security_group = data.aws_security_group.security_group.id
