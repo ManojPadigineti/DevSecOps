@@ -40,7 +40,7 @@ module "igw" {
 module "route_table" {
   depends_on = [module.igw, module.nat]
   source = "../modules/route_table"
-  igw_id = module.igw.igw_id
+  igw_id = module.igw["igw-rb"].igw_id
   nat_gateway_id = module.nat["roboshop-nat"].nat_gateway_id
   vpc_id = module.vpc["roboshop_vpc"].vpc_id
 }
