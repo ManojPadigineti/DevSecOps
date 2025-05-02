@@ -1,3 +1,3 @@
 bucket         = "terraformbackend1977"
-key            = "backend/dev/terraform.tfstate"
+key            = "backend/dev/network/terraform.tfstate"
 region         = "us-east-1"
