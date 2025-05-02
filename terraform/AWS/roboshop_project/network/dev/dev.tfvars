@@ -32,3 +32,26 @@ nat_gateway = {
     nat_eip_name = "roboshop_nat-eip"
   }
 }
+
+#security_group
+security_group = {
+  security_group-roboshop = {
+    sg_name = "roboshop_security_group"
+  }
+}
+
+#security_group_rules
+security_group_rules = {
+  ssh = {
+    cidr = ["0.0.0.0/0"]
+    port = 22
+    protocol = "TCP"
+    type = ingress
+  }
+  http = {
+    cidr = ["0.0.0.0/0"]
+    port = 80
+    protocol = "TCP"
+    type = ingress
+  }
+}

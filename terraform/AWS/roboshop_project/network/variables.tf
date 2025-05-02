@@ -30,3 +30,18 @@ variable "nat_gateway" {
     nat_eip_name = string
   }))
 }
+
+variable "security_group" {
+  type = map(object({
+    sg_name = string
+  }))
+}
+
+variable "security_group_rules" {
+  type = map(object({
+    cidr = list(string)
+    port = number
+    protocol = string
+    type = string
+  }))
+}

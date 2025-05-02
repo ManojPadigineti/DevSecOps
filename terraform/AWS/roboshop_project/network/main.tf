@@ -70,3 +70,31 @@ module "nat" {
   nat_name      =  each.key
   private_subnet_nat = module.subnets["private-subnet"].subnet_id
 }
+
+#=========================#
+#     Security_group      #
+#=========================#
+
+module "security_group" {
+  depends_on = [module.vpc]
+  for_each = var.security_group
+  source = "../modules/security_group"
+  sg_name = each.value.sg_name
+  vpc_id = module.vpc["roboshop_vpc"].vpc_id
+}
+
+#==============================#
+#     Security_group_rule      #
+#==============================#
+
+module "security_group_rule" {
+  depends_on = [module.security_group]
+  for_each = var.security_group_rules
+  source = "../modules/security_group_rules"
+  cidr     = each.value.cidr
+  port     = each.value.port
+  protocol = each.value.protocol
+  sg_id    = module.security_group["roboshop_security_group"].sg_id
+  type     = each.value.type
+  rulename = each.key
+}
