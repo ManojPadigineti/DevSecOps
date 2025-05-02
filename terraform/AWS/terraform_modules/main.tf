@@ -217,7 +217,7 @@ module "db_eip_associate" {
 #-------------------#
 
 module "frontend_route53_record" {
-  depends_on = [module.frontend_instances, module.frontend_eip, module.frontend_eip_associate, module.Frontend_sleep_provisioner, module.backend_route53_record, module.db_route53_record]
+  depends_on = [module.frontend_instances, module.frontend_eip, module.frontend_eip_associate, module.Frontend_sleep_provisioner, module.backend_route53_record]
   for_each = var.frontend_instances
   source = "./modules/route53"
   hosted_zone_name = "manojpadigineti.cloud"
@@ -226,7 +226,7 @@ module "frontend_route53_record" {
 }
 
 module "backend_route53_record" {
-  depends_on = [module.backend_instances, module.backend_eip, module.backend_eip_associate]
+  depends_on = [module.backend_instances, module.backend_eip, module.backend_eip_associate, module.db_route53_record]
   for_each = var.backend_instances
   source = "./modules/route53"
   hosted_zone_name = "manojpadigineti.cloud"
@@ -249,7 +249,7 @@ module "db_route53_record" {
 
 #Server Password required in runtime
 module "db_Ansible_provisioner" {
-  depends_on = [module.db_instances, module.db_eip_associate, module.db_route53_record, module.security_group_rule]
+  depends_on = [module.db_instances, module.db_eip_associate, module.frontend_route53_record, module.security_group_rule]
   for_each = var.db_instances
   source = "./modules/ansible_provisioner"
   password = var.server_password
@@ -257,7 +257,7 @@ module "db_Ansible_provisioner" {
 }
 
 module "backend_Ansible_provisioner" {
-  depends_on = [module.backend_instances, module.backend_eip_associate, module.backend_route53_record, module.security_group_rule]
+  depends_on = [module.backend_instances, module.backend_eip_associate, module.frontend_route53_record, module.security_group_rule, module.db_Ansible_provisioner]
   for_each = var.backend_instances
   source = "./modules/ansible_provisioner"
   password = var.server_password
@@ -265,7 +265,7 @@ module "backend_Ansible_provisioner" {
 }
 
 module "frontend_Ansible_provisioner" {
-  depends_on = [module.frontend_instances, module.frontend_eip_associate, module.frontend_route53_record, module.security_group_rule]
+  depends_on = [module.frontend_instances, module.frontend_eip_associate, module.frontend_route53_record, module.security_group_rule, module.backend_Ansible_provisioner]
   for_each = var.frontend_instances
   source = "./modules/ansible_provisioner"
   password = var.server_password
@@ -286,7 +286,7 @@ module "Frontend_sleep_provisioner" {
 #-------------------------#
 
 module "dbs_playbook_provisioner" {
-  depends_on = [module.db_route53_record, module.db_Ansible_provisioner, module.frontend_route53_record]
+  depends_on = [module.db_route53_record, module.frontend_route53_record, module.frontend_Ansible_provisioner]
   for_each = var.db_instances
   source = "./modules/ansible_execute"
   password  = var.server_password
