@@ -94,7 +94,7 @@ module "security_group_rule" {
   cidr     = each.value.cidr
   port     = each.value.port
   protocol = each.value.protocol
-  sg_id    = module.security_group["roboshop_security_group"].sg_id
+  sg_id    = module.security_group["security_group-roboshop"].sg_id
   rulename = each.key
   type     = each.value.type
 }
