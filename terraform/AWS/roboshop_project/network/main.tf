@@ -17,7 +17,7 @@ module "igw" {
   for_each = var.igw
   source = "../modules/igw"
   igw_name = each.value.name
-  vpc_id   = module.vpc.vpc_id
+  vpc_id   = module.vpc[each.key].vpc_id
 }
 
 
