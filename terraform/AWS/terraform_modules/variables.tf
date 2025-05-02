@@ -32,9 +32,9 @@ variable "sg_rules" {
   }))
 }
 
-variable "microservice" {
-  type = list(string)
-}
+# variable "microservice" {
+#   type = list(string)
+# }
 
 variable "db_instances" {
   type = map(object({
