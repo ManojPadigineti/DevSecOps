@@ -46,12 +46,18 @@ security_group_rules = {
     cidr = ["0.0.0.0/0"]
     port = 22
     protocol = "TCP"
-    type = ingress
+    type = "ingress"
   }
   http = {
     cidr = ["0.0.0.0/0"]
     port = 80
     protocol = "TCP"
-    type = ingress
+    type = "ingress"
+  }
+  outbound_traffic = {
+    cidr = ["0.0.0.0/0"]
+    port = 0
+    protocol = "-1"
+    type = "egress"
   }
 }

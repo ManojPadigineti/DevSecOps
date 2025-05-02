@@ -95,6 +95,6 @@ module "security_group_rule" {
   port     = each.value.port
   protocol = each.value.protocol
   sg_id    = module.security_group["roboshop_security_group"].sg_id
-  type     = each.value.type
   rulename = each.key
+  type     = each.value.type
 }
