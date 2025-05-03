@@ -90,19 +90,19 @@ module "db_provisioner" {
 }
 
 module "backend_provisioner" {
-  depends_on = [module.frontend_route53_records, module.db_provisioner]
+  depends_on = [module.db_provisioner]
   for_each = var.roboshop_backend_instances
   source = "../modules/ansible_provisioner"
   password  = var.password
-  public_ip = module.roboshop_db_instances[each.key].ec2_instance_output_private_ip
+  public_ip = module.roboshop_backend_instances[each.key].ec2_instance_output_private_ip
   server_name = each.key
 }
 
 module "frontend_provisioner" {
-  depends_on = [module.frontend_route53_records, module.backend_provisioner]
+  depends_on = [module.backend_provisioner]
   for_each = var.roboshop_frontend_instances
   source = "../modules/ansible_provisioner"
   password  = var.password
-  public_ip = module.roboshop_db_instances[each.key].ec2_instance_output_private_ip
+  public_ip = module.roboshop_frontend_instances[each.key].ec2_instance_output_private_ip
   server_name = each.key
 }
