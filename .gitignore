@@ -13,3 +13,4 @@ versions.tf
 *version
 *.versi
 versi*
+provider*
