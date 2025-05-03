@@ -60,6 +60,42 @@ security_group_rules = {
     protocol = "icmp"
     type = "ingress"
   }
+  sonar = {
+    port = 9000
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
+  jenkins = {
+    port = 8080
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
+  mongodb = {
+    port = 27017
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
+  redis = {
+    port = 6379
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
+  mysql = {
+    port = 3306
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
+  rabbitmq = {
+    port = 5672
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
   outbound_traffic = {
     cidr = ["0.0.0.0/0"]
     port = 0
