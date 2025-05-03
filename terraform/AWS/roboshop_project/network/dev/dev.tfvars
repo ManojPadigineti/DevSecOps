@@ -54,6 +54,12 @@ security_group_rules = {
     protocol = "TCP"
     type = "ingress"
   }
+  http = {
+    cidr = ["0.0.0.0/0"]
+    port = -1
+    protocol = "icmp"
+    type = "ingress"
+  }
   outbound_traffic = {
     cidr = ["0.0.0.0/0"]
     port = 0
