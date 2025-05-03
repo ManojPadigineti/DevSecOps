@@ -3,6 +3,7 @@
 #=========================#
 
 module "roboshop_db_instances" {
+  depends_on = [module.frontend_route53_records]
   for_each = var.roboshop_db_instances
   source = "../modules/ec2"
   ami    = var.ami_name
@@ -13,6 +14,7 @@ module "roboshop_db_instances" {
 }
 
 module "roboshop_backend_instances" {
+  depends_on = [module.roboshop_db_instances]
   for_each = var.roboshop_db_instances
   source = "../modules/ec2"
   ami    = var.ami_name
@@ -37,7 +39,7 @@ module "roboshop_frontend_instances" {
 #===================#
 
 module "roboshop_eip" {
-  depends_on = [module.roboshop_frontend_instances]
+  depends_on = [module.roboshop_backend_instances]
   for_each = var.roboshop_frontend_instances
   source = "../modules/eip"
   instance_id = module.roboshop_frontend_instances[each.key].ec2_instance_output_id
@@ -48,6 +50,7 @@ module "roboshop_eip" {
 #========================#
 
 module "db_route53_records" {
+  depends_on = [module.roboshop_eip]
   for_each = var.roboshop_db_instances
   source = "../modules/route53_record"
   record_name = each.key
@@ -71,4 +74,35 @@ module "frontend_route53_records" {
   record_name = each.key
   route53_records = module.roboshop_backend_instances[each.key].ec2_instance_output_public_ip
   zoneid = data.aws_route53_zone.route_53_zone.id
+}
+
+#===================================#
+#       Ansible Provisioner         #
+#===================================#
+
+module "db_provisioner" {
+  depends_on = [module.frontend_route53_records]
+  for_each = var.roboshop_db_instances
+  source = "../modules/ansible_provisioner"
+  password  = var.password
+  public_ip = module.roboshop_db_instances[each.key].ec2_instance_output_private_ip
+  server_name = each.key
+}
+
+module "backend_provisioner" {
+  depends_on = [module.frontend_route53_records, module.db_provisioner]
+  for_each = var.roboshop_db_instances
+  source = "../modules/ansible_provisioner"
+  password  = var.password
+  public_ip = module.roboshop_db_instances[each.key].ec2_instance_output_private_ip
+  server_name = each.key
+}
+
+module "frontend_provisioner" {
+  depends_on = [module.frontend_route53_records, module.backend_provisioner]
+  for_each = var.roboshop_db_instances
+  source = "../modules/ansible_provisioner"
+  password  = var.password
+  public_ip = module.roboshop_db_instances[each.key].ec2_instance_output_private_ip
+  server_name = each.key
 }

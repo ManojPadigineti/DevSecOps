@@ -4,6 +4,9 @@ variable "security_group_id" {}
 variable "private_subnet_id" {}
 variable "public_subnet_id" {}
 variable "zone_name" {}
+variable "password" {
+  default = "DevOps321"
+}
 
 variable "roboshop_db_instances" {
   type = map(object({
