@@ -6,7 +6,7 @@ module "roboshop_db_instances" {
   depends_on = [module.roboshop_frontend_instances]
   for_each = var.roboshop_db_instances
   source = "../modules/ec2"
-  ami    = var.ami_name
+  ami    = data.aws_ami.ami_ec2.id
   ec2_subnet = data.aws_subnet.private_subnet.id
   instance_name = each.key
   instance_type = each.value.instance_type
@@ -17,7 +17,7 @@ module "roboshop_backend_instances" {
   depends_on = [module.roboshop_db_instances]
   for_each = var.roboshop_backend_instances
   source = "../modules/ec2"
-  ami    = var.ami_name
+  ami    = data.aws_ami.ami_ec2.id
   ec2_subnet = data.aws_subnet.private_subnet.id
   instance_name = each.key
   instance_type = each.value.instance_type
@@ -27,7 +27,7 @@ module "roboshop_backend_instances" {
 module "roboshop_frontend_instances" {
   for_each = var.roboshop_frontend_instances
   source = "../modules/ec2"
-  ami    = var.ami_name
+  ami    = data.aws_ami.ami_ec2.id
   ec2_subnet = data.aws_subnet.public_subnet.id
   instance_name = each.key
   instance_type = each.value.instance_type
