@@ -15,7 +15,7 @@ module "roboshop_db_instances" {
 
 module "roboshop_backend_instances" {
   depends_on = [module.roboshop_db_instances]
-  for_each = var.roboshop_db_instances
+  for_each = var.roboshop_backend_instances
   source = "../modules/ec2"
   ami    = var.ami_name
   ec2_subnet = data.aws_subnet.private_subnet.id
@@ -25,7 +25,7 @@ module "roboshop_backend_instances" {
 }
 
 module "roboshop_frontend_instances" {
-  for_each = var.roboshop_db_instances
+  for_each = var.roboshop_frontend_instances
   source = "../modules/ec2"
   ami    = var.ami_name
   ec2_subnet = data.aws_subnet.public_subnet.id
@@ -54,7 +54,7 @@ module "db_route53_records" {
   for_each = var.roboshop_db_instances
   source = "../modules/route53_record"
   record_name = each.key
-  route53_records = module.roboshop_frontend_instances[each.key].ec2_instance_output_private_ip
+  route53_records = module.roboshop_db_instances[each.key].ec2_instance_output_private_ip
   zoneid = data.aws_route53_zone.route_53_zone.id
 }
 
@@ -69,10 +69,10 @@ module "backend_route53_records" {
 
 module "frontend_route53_records" {
   depends_on = [module.roboshop_frontend_instances, module.backend_route53_records]
-  for_each = var.roboshop_backend_instances
+  for_each = var.roboshop_frontend_instances
   source = "../modules/route53_record"
   record_name = each.key
-  route53_records = module.roboshop_backend_instances[each.key].ec2_instance_output_public_ip
+  route53_records = module.roboshop_frontend_instances[each.key].ec2_instance_output_public_ip
   zoneid = data.aws_route53_zone.route_53_zone.id
 }
 
