@@ -3,7 +3,7 @@
 #=========================#
 
 module "roboshop_db_instances" {
-  depends_on = [module.frontend_route53_records]
+  depends_on = [module.roboshop_frontend_instances]
   for_each = var.roboshop_db_instances
   source = "../modules/ec2"
   ami    = var.ami_name
