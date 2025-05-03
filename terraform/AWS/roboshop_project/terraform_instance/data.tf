@@ -5,7 +5,7 @@ data "aws_ami" "ami_ec2" {
 }
 
 data "aws_subnet" "public_subnet" {
-  id = var.subnet_id
+  id = var.public_subnet_id
 }
 
 data "aws_security_group" "security_group" {

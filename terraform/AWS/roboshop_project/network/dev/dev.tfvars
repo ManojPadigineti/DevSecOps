@@ -54,7 +54,7 @@ security_group_rules = {
     protocol = "TCP"
     type = "ingress"
   }
-  http = {
+  icmp = {
     cidr = ["0.0.0.0/0"]
     port = -1
     protocol = "icmp"

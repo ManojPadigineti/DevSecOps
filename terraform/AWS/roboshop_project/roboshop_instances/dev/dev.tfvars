@@ -1,0 +1,49 @@
+ami_name = "RHEL-9-DevOps-Practice"
+ami_owner = ["973714476881"]
+security_group_id = "sg-0100d26ff800ad636"
+public_subnet_id = "subnet-034d799be30689a26"
+private_subnet_id = "subnet-05d7fdc9c23b02919"
+zone_name = "manojpadigineti.cloud"
+
+
+roboshop_db_instances = {
+  mongodb = {
+    instance_type = "t2.micro"
+  }
+  redis = {
+    instance_type = "t2.micro"
+  }
+  mysql = {
+    instance_type = "t2.micro"
+  }
+  rabbitmq = {
+    instance_type = "t2.micro"
+  }
+}
+
+roboshop_backend_instances = {
+  catalogue = {
+    instance_type = "t2.micro"
+  }
+  user = {
+    instance_type = "t2.micro"
+  }
+  cart = {
+    instance_type = "t2.micro"
+  }
+  shipping = {
+    instance_type = "t2.micro"
+  }
+  payment = {
+    instance_type = "t2.micro"
+  }
+  dispatch = {
+    instance_type = "t2.micro"
+  }
+}
+
+roboshop_frontend_instances = {
+  frontend = {
+    instance_type = "t2.micro"
+  }
+}
