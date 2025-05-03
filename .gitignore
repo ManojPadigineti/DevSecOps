@@ -2,6 +2,7 @@
 .terraform/
 .terraform.lock.hcl
 versions.tf
+provider.tf
 
 # Ignore Terraform state files and backups
 *.tfstate
