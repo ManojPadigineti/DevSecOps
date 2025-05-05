@@ -68,20 +68,12 @@ module "backend_route53_records" {
 }
 
 module "frontend_route53_records" {
-  depends_on = [module.sleep_provisioner, module.roboshop_frontend_instances, module.backend_route53_records]
+  depends_on = [module.roboshop_frontend_instances, module.backend_route53_records]
   for_each = var.roboshop_frontend_instances
   source = "../modules/route53_record"
   record_name = each.key
   route53_records = module.roboshop_frontend_instances[each.key].ec2_instance_output_public_ip
   zoneid = data.aws_route53_zone.route_53_zone.id
-}
-
-#=================================#
-#       Sleep Provisioner         #
-#=================================#
-
-module "sleep_provisioner" {
-  source = "../modules/sleep_provisioner"
 }
 
 #===================================#
