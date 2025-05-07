@@ -9,7 +9,7 @@ private_subnet_id = "subnet-067bcd5f95415d17e"
 security_group_id = "sg-0a6a20a132abde36f"
 
 terraform_instance = {
-  vault = {
+  terraform_vault = {
     instance_type = "t2.micro"
   }
 }

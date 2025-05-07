@@ -37,5 +37,5 @@ module "terraform_provisioner" {
   depends_on = [module.hashicorp_vault_route_53_private]
   source = "../modules/terraform_provisioner"
   password  = var.password
-  public_ip = module.terraform_vault_ec2["terraform"].ec2_instance_output_public_ip
+  public_ip = module.terraform_vault_ec2["terraform_vault"].ec2_instance_output_public_ip
 }
