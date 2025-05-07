@@ -1,6 +1,7 @@
 #data_sources
 variable "ami_name" {}
 variable "ami_owner" {}
+variable "zone_name" {}
 variable "password" {
   default = "DevOps321"
 }

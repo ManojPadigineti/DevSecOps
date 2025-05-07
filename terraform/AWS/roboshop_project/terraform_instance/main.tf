@@ -21,3 +21,11 @@ module "terraform_provisioner" {
   password  = var.password
   public_ip = module.terraform_ec2["terraform"].ec2_instance_output_public_ip
 }
+
+module "hashicorp_vault_route_53" {
+  for_each = var.terraform_instance
+  source = "../modules/route53_record"
+  record_name = each.key
+  route53_records = module.terraform_ec2[each.key].ec2_instance_output_public_ip
+  zoneid = data.aws_route53_zone.route_53_zone.id
+}

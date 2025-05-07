@@ -10,7 +10,8 @@ resource "null_resource" "terraform_provisioner" {
   provisioner "remote-exec" {
     inline = [
        "git clone https://github.com/ManojPadigineti/ansible_playbook.git",
-        "sudo bash ansible_playbook/Install_terraform.sh"
+        "sudo bash ansible_playbook/Install_terraform.sh",
+         "ansible-playbook -i localhost playbook.yml -e var_file=hashicorp"
     ]
   }
 }
