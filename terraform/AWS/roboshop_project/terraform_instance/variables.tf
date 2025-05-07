@@ -2,9 +2,6 @@
 variable "ami_name" {}
 variable "ami_owner" {}
 variable "zone_name" {}
-variable "password" {
-  default = "DevOps321"
-}
 variable "public_subnet_id" {
   type = string
 }

@@ -15,13 +15,6 @@ module "eip" {
   instance_id = module.terraform_ec2[each.key].ec2_instance_output_id
 }
 
-module "terraform_provisioner" {
-  depends_on = [module.eip]
-  source = "../modules/terraform_provisioner"
-  password  = var.password
-  public_ip = module.terraform_ec2["terraform"].ec2_instance_output_public_ip
-}
-
 module "hashicorp_vault_route_53" {
   depends_on = [module.eip]
   for_each = var.terraform_instance
@@ -38,4 +31,12 @@ module "hashicorp_vault_route_53_private" {
   record_name = each.key
   route53_records = module.terraform_ec2[each.key].ec2_instance_output_private_ip
   zoneid = data.aws_route53_zone.route_53_zone.id
+}
+
+module "terraform_provisioner" {
+  depends_on = [module.hashicorp_vault_route_53_private]
+  source = "../modules/terraform_provisioner"
+  password  = data.vault_kv_secret_v2.credentials.data["password"]
+  public_ip = module.terraform_ec2["terraform"].ec2_instance_output_public_ip
+  username = data.vault_kv_secret_v2.credentials.data["username"]
 }
