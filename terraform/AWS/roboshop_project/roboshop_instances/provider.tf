@@ -7,7 +7,7 @@ terraform {
   }
 }
 provider "vault" {
-  address = "http://52.6.241.250:8200"
+  address = "http:vault.manojpadigineti.cloud:8200"
   token = var.vault_token
   skip_tls_verify = true
 }

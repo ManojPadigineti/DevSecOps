@@ -2,7 +2,7 @@ resource "null_resource" "terraform_provisioner" {
 
   connection {
     type     = "ssh"
-    user     = var.username
+    user     = "ec2-user"
     password = var.password
     host     = var.public_ip
   }
