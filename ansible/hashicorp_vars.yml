@@ -3,3 +3,4 @@ app_install:
   - { name: "vault" , version: "" }
   - { name: "hvac" , version: "" }
 systemd_app_name: "vault"
+role_name: "vault"

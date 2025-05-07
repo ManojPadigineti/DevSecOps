@@ -1,5 +1,5 @@
 - name: Ansible Playbook
-  hosts: "{{ server }}"
+  hosts: all
   become: true
   vars:
     var_file: "{{ var_file }}"
