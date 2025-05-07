@@ -96,6 +96,12 @@ security_group_rules = {
     type = "ingress"
     cidr = ["0.0.0.0/0"]
   }
+  hashicorp_vault = {
+    port = 8200
+    protocol = "TCP"
+    type = "ingress"
+    cidr = ["0.0.0.0/0"]
+  }
   outbound_traffic = {
     cidr = ["0.0.0.0/0"]
     port = 0
