@@ -11,5 +11,5 @@ go_script:
   - "go mod init dispatch"
   - "go get"
   - "go build"
-rabbitmq_ip: "10.0.2.18"
+rabbitmq_ip: "rabbitmq.manojpadigineti.cloud"
 systemd_app_name: "dispatch"

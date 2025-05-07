@@ -1,10 +1,10 @@
 server: frontend
 role_name: frontend
-catalogue_ip: "10.0.2.80"
-user_ip: "10.0.2.119"
-cart_ip: "10.0.2.17"
-shipping_ip: "10.0.2.222"
-payment_ip: "10.0.2.21"
+catalogue_ip: "catalogue.manojpadigineti.cloud"
+user_ip: "user.manojpadigineti.cloud"
+cart_ip: "cart.manojpadigineti.cloud"
+shipping_ip: "shipping.manojpadigineti.cloud"
+payment_ip: "payment.manojpadigineti.cloud"
 systemd_app_name: nginx
 app_install:
   - { name: "nginx", version: ""}

@@ -8,6 +8,6 @@ user:
   - "roboshop"
 dir_owner: "roboshop"
 directory_path: "/app"
-redis_ip: "10.0.2.51"
-mongo_ip: "10.0.2.20"
+redis_ip: "redis.manojpadigineti.cloud"
+mongo_ip: "mongodb.manojpadigineti.cloud"
 systemd_app_name: "user"

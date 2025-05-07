@@ -6,7 +6,7 @@ repo_name: "mongo"
 disable_enable_app: nodejs
 enable_app_version: "20"
 systemd_app_name: catalogue
-mongo_ip: 10.0.2.20
+mongo_ip: "mongodb.manojpadigineti.cloud"
 server: catalogue
 user:
   - "roboshop"
