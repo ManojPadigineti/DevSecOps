@@ -88,6 +88,7 @@ module "db_provisioner" {
   public_ip = module.roboshop_db_instances[each.key].ec2_instance_output_private_ip
   server_name = each.key
   username = data.vault_kv_secret_v2.credentials.data["username"]
+  vault_token = var.vault_token
 }
 
 module "backend_provisioner" {
@@ -98,6 +99,7 @@ module "backend_provisioner" {
   public_ip = module.roboshop_backend_instances[each.key].ec2_instance_output_private_ip
   server_name = each.key
   username = data.vault_kv_secret_v2.credentials.data["username"]
+  vault_token = var.vault_token
 }
 
 module "frontend_provisioner" {
@@ -108,4 +110,5 @@ module "frontend_provisioner" {
   public_ip = module.roboshop_frontend_instances[each.key].ec2_instance_output_private_ip
   server_name = each.key
   username = data.vault_kv_secret_v2.credentials.data["username"]
+  vault_token = var.vault_token
 }
