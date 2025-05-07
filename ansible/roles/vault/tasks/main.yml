@@ -8,7 +8,7 @@
     name: dnf_modules
     tasks_from: main.yml
 
-- name: Template a file to /etc/file.conf
+- name: remove existing vault.hcl
   ansible.builtin.shell:
     cmd: "rm -rf /etc/vault.d/vault.hcl ; pip install hvac"
 
