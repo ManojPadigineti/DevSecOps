@@ -4,6 +4,9 @@ security_group_id = "sg-0a6a20a132abde36f"
 public_subnet_id = "subnet-07ab41a9a6bd6b40b"
 private_subnet_id = "subnet-067bcd5f95415d17e"
 zone_name = "manojpadigineti.cloud"
+mount_path = "kv"
+secret_name = "credentials"
+
 
 
 roboshop_db_instances = {

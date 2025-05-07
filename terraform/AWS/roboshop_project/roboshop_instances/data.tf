@@ -20,3 +20,8 @@ data "aws_route53_zone" "route_53_zone" {
   name         = var.zone_name
   private_zone = false
 }
+
+data "vault_kv_secret_v2" "credentials" {
+  mount = var.mount_path
+  name  = var.secret_name
+}

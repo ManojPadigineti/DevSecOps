@@ -4,9 +4,10 @@ variable "security_group_id" {}
 variable "private_subnet_id" {}
 variable "public_subnet_id" {}
 variable "zone_name" {}
-variable "password" {
-  default = "DevOps321"
-}
+variable "mount_path" {}
+variable "secret_name" {}
+variable "vault_token" {}
+
 
 variable "roboshop_db_instances" {
   type = map(object({

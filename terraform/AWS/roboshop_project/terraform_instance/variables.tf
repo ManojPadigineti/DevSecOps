@@ -2,6 +2,7 @@
 variable "ami_name" {}
 variable "ami_owner" {}
 variable "zone_name" {}
+variable "vault_token" {}
 variable "public_subnet_id" {
   type = string
 }
