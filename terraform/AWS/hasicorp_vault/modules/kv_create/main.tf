@@ -1,11 +1,4 @@
-terraform {
-  required_providers {
-    local = {
-      source  = "hashicorp/local"
-      version = "2.5.2"
-    }
-  }
-}
+
 resource "vault_mount" "kv2" {
   path        = "/v1/v1/manoj/data/credentials/data/devops"
   type        = "kv"
