@@ -2,16 +2,13 @@
 .terraform/
 .terraform.lock.hcl
 versions.tf
-provider.tf
 
 # Ignore Terraform state files and backups
 *.tfstate
 *.tfstate.backup
 *.terraform
 *state
-*provider
 *idea
 *version
 *.versi
 versi*
-provider*
