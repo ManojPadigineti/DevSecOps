@@ -11,6 +11,7 @@ resource "null_resource" "terraform_provisioner" {
     inline = [
        "git clone https://github.com/ManojPadigineti/ansible_playbook.git",
         "sudo bash ansible_playbook/Install_terraform.sh",
+        "sudo bash ansible_playbook/install_ansible.sh",
          "ansible-playbook -i localhost playbook.yml -e var_file=hashicorp"
     ]
   }
