@@ -1,6 +1,6 @@
 
 data "vault_kv_secret_v2" "credentials" {
-  mount = "/v1/kv/data/credentials"
+  mount = "kv "
   name  = "credentials"
 }
 
