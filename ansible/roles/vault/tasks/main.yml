@@ -9,6 +9,10 @@
     tasks_from: main.yml
 
 - name: Template a file to /etc/file.conf
+  ansible.builtin.shell:
+    cmd: rm -rf /etc/vault.d/vault.hcl
+
+- name: Template a file to /etc/file.conf
   ansible.builtin.template:
     src: vault.hcl
     dest: /etc/vault.d/
