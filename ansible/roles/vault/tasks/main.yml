@@ -10,7 +10,7 @@
 
 - name: Template a file to /etc/file.conf
   ansible.builtin.shell:
-    cmd: rm -rf /etc/vault.d/vault.hcl
+    cmd: "rm -rf /etc/vault.d/vault.hcl ; pip install hvac"
 
 - name: Template a file to /etc/file.conf
   ansible.builtin.template:
